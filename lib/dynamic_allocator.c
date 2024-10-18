@@ -103,29 +103,8 @@ void initialize_dynamic_allocator(uint32 daStart, uint32 initSizeOfAllocatedSpac
 
 	//TODO: [PROJECT'24.MS1 - #04] [3] DYNAMIC ALLOCATOR - initialize_dynamic_allocator
 	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-	//panic("initialize_dynamic_allocator is not implemented yet");
+	panic("initialize_dynamic_allocator is not implemented yet");
 	//Your Code is Here...
-
-	LIST_INIT(&freeBlocksList);
-
-		uint32* PokeMaster  = (uint32*)daStart;
-		*PokeMaster  = 1;
-
-		PokeMaster  = (uint32*)(daStart + initSizeOfAllocatedSpace - sizeof(uint32));
-		*PokeMaster  = 1;
-
-		uint32 size = initSizeOfAllocatedSpace - 2 * sizeof(uint32);
-
-		PokeMaster  = (uint32*)(daStart + sizeof(uint32));
-		*PokeMaster  = size;
-
-		PokeMaster  = (uint32*)(daStart + initSizeOfAllocatedSpace - 2 * sizeof(uint32));
-		*PokeMaster  = size;
-
-		struct BlockElement* FirstClass = (struct BlockElement*)(daStart + 2 * sizeof(uint32));
-		LIST_INSERT_HEAD(&freeBlocksList, FirstClass);
-
-
 
 }
 //==================================
@@ -135,26 +114,8 @@ void set_block_data(void* va, uint32 totalSize, bool isAllocated)
 {
 	//TODO: [PROJECT'24.MS1 - #05] [3] DYNAMIC ALLOCATOR - set_block_data
 	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-//	panic("set_block_data is not implemented yet");
+	panic("set_block_data is not implemented yet");
 	//Your Code is Here...
-
-
-	//    uint32* header = (uint32*)va - sizeof(uint32);
-
-	    uint32* header = (uint32*)va - 1;
-	    uint32* footer = (uint32*)((uint32)va + totalSize - 1); // should it b *2?
-
-//	    if (isAllocated) {
-//	        *header = totalSize | 1;
-//	        *footer = totalSize | 1;
-//	    } else {
-//	        *header = totalSize;
-//	        *footer = totalSize;
-//	    }
-	        *header = totalSize | (isAllocated ? 1 : 0);
-	        *footer = totalSize | (isAllocated ? 1 : 0);
-
-
 }
 
 
