@@ -139,7 +139,8 @@ void set_block_data(void* va, uint32 totalSize, bool isAllocated)
 	//    uint32* header = (uint32*)va - sizeof(uint32);
 
 		    uint32* header = (uint32*)va - 1;
-		    uint32* footer = (uint32*)((uint32)va + totalSize - 1); // should it b *2?
+		    uint32* footer = (uint32*)((uint32)header + totalSize ); // should it b *2?
+		    footer--;
 
 	//	    if (isAllocated) {
 	//	        *header = totalSize | 1;
@@ -178,7 +179,7 @@ void *alloc_block_FF(uint32 size)
 
 	//TODO: [PROJECT'24.MS1 - #06] [3] DYNAMIC ALLOCATOR - alloc_block_FF
 	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-	panic("alloc_block_FF is not implemented yet");
+//	panic("alloc_block_FF is not implemented yet");
 	//Your Code is Here...
 
 }
