@@ -1,6 +1,9 @@
 #ifndef FOS_INC_SYSCALL_H
 #define FOS_INC_SYSCALL_H
 
+unsigned int sys_hard_limit();
+unsigned int sys_is_free_page();
+
 /* system call numbers */
 enum
 {
@@ -49,7 +52,15 @@ enum
 	SYS_utilities,
 	/*2024*/
 	//TODO: [PROJECT'24.MS1 - #02] [2] SYSTEM CALLS - Add suitable code here
+	SYS_sbrk,
+	SYS_free_user_mem,
+	SYS_allocate_user_mem,
+	SYS_env_set_priority,
 
+
+	//=====================================================================
+	SYS_hard_limit,
+	SYS_page_is_free,
 	//=====================================================================
 	NSYSCALLS
 };

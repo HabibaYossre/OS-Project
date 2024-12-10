@@ -122,28 +122,25 @@ uint32 calculate_required_frames(uint32* page_directory, uint32 sva, uint32 size
 //=====================================
 void* sys_sbrk(int numOfPages)
 {
-	/* numOfPages > 0: move the segment break of the current user program to increase the size of its heap
-	 * 				by the given number of pages. You should allocate NOTHING,
-	 * 				and returns the address of the previous break (i.e. the beginning of newly mapped memory).
-	 * numOfPages = 0: just return the current position of the segment break
-	 *
-	 * NOTES:
-	 * 	1) As in real OS, allocate pages lazily. While sbrk moves the segment break, pages are not allocated
-	 * 		until the user program actually tries to access data in its heap (i.e. will be allocated via the fault handler).
-	 * 	2) Allocating additional pages for a process’ heap will fail if, for example, the free frames are exhausted
-	 * 		or the break exceed the limit of the dynamic allocator. If sys_sbrk fails, the net effect should
-	 * 		be that sys_sbrk returns (void*) -1 and that the segment break and the process heap are unaffected.
-	 * 		You might have to undo any operations you have done so far in this case.
-	 */
+
+    //TODO: [PROJECT'24.MS2 - #11] [3] USER HEAP - sys_sbrk
 
 	struct Env* env = get_cpu_proc(); //the current running Environment to adjust its break limit
 
-	/*====================================*/
-	/*Remove this line before start coding*/
-	return (void*)-1 ;
-	/*====================================*/
+	uint32 retsbr = env->sbr;
+	if (!numOfPages)
+	return (void*)retsbr;
 
-	//[PROJECT'24.MS2] Implement this function
+	if (numOfPages > 0)
+	{
+	    if (retsbr + numOfPages*PAGE_SIZE > env->hardLimit)
+	       return (void*)-1;
+	    uint32 old_sbr = ROUNDUP(retsbr, PAGE_SIZE),  new_sbr= old_sbr + numOfPages*PAGE_SIZE;
+	    env->sbr = new_sbr;
+	    allocate_user_mem(env, old_sbr, new_sbr-old_sbr);
+	}
+
+	return (void*)retsbr;
 
 }
 
@@ -152,33 +149,43 @@ void* sys_sbrk(int numOfPages)
 //=====================================
 void allocate_user_mem(struct Env* e, uint32 virtual_address, uint32 size)
 {
-	/*====================================*/
-	/*Remove this line before start coding*/
-	inctst();
-	return;
-	/*====================================*/
+     //TODO: [PROJECT'24.MS2 - #13] [3] USER HEAP [KERNEL SIDE] - allocate_user_mem()
+     // Write your code here, remove the panic and write your code
 
-	//[PROJECT'24.MS2] [USER HEAP - KERNEL SIDE] allocate_user_mem
-	// Write your code here, remove the panic and write your code
-	panic("allocate_user_mem() is not implemented yet...!!");
+	 unsigned int numPages = ROUNDUP(size, PAGE_SIZE) / PAGE_SIZE;
+	 for (uint32 i=0;i<numPages;i++){
+	    uint32  res;
+	    uint32 * ptr_page_table= NULL;
+	    res = get_page_table(e->env_page_directory,virtual_address,&ptr_page_table);
+	    if (res == TABLE_NOT_EXIST){
+	        ptr_page_table = create_page_table(e->env_page_directory,virtual_address);
+	    }
+	    pt_set_page_permissions(e->env_page_directory,virtual_address,PERM_MARKED,0);
+	    virtual_address+= PAGE_SIZE;
+	 }
 }
-
 //=====================================
 // 2) FREE USER MEMORY:
 //=====================================
-void free_user_mem(struct Env* e, uint32 virtual_address, uint32 size)
-{
-	/*====================================*/
-	/*Remove this line before start coding*/
-	inctst();
-	return;
-	/*====================================*/
+void free_user_mem(struct Env* e, uint32 virtual_address, uint32 size) {
+    // Step 1: Calculate the number of pages to free
+    uint32 numpages = ROUNDUP(size, PAGE_SIZE) / PAGE_SIZE; // Total number of pages to free
 
-	//[PROJECT'24.MS2] [USER HEAP - KERNEL SIDE] free_user_mem
-	// Write your code here, remove the panic and write your code
-	panic("free_user_mem() is not implemented yet...!!");
+    // Step 2: Free each page in the given range
+    for (uint32 i = 0; i < numpages; i++) {
+        uint32 current_virtual_address = virtual_address + (i * PAGE_SIZE);
+        uint32* ptr_page_table = NULL;
+
+        if (get_page_table(e->env_page_directory, current_virtual_address, &ptr_page_table) == TABLE_NOT_EXIST) {
+            // If the page table doesn't exist, we can't free this page
+            panic("Trying to free a page that doesn't exist!");
+        }
+        pf_remove_env_page(e, current_virtual_address);
+        Shrouk_env_page_ws_invalidate_fast(e, current_virtual_address);
+        pt_set_page_permissions(e->env_page_directory, current_virtual_address, 0, PERM_MARKED);
+
+    }
 }
-
 //=====================================
 // 2) FREE USER MEMORY (BUFFERING):
 //=====================================

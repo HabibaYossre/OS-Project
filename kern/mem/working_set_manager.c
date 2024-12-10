@@ -16,13 +16,88 @@
 
 inline struct WorkingSetElement* env_page_ws_list_create_element(struct Env* e, uint32 virtual_address)
 {
-	//[PROJECT'24.MS2] Create a new WS element
-	//If failed to create a new one, kernel should panic()!
-	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-	panic("create_share is not implemented yet");
-	//Your Code is Here...
+	   //TODO: [PROJECT'24.MS2 - #07] [2] FAULT HANDLER I - Create a new WS element
+
+	    struct WorkingSetElement* new_element = (struct WorkingSetElement*)kmalloc(sizeof(struct WorkingSetElement));
+
+	    if (!new_element) {
+	        panic("Failed to allocate memory for WorkingSetElement!");
+	    }
+
+	    new_element->virtual_address = virtual_address;
+	    return new_element;
+
 
 }
+/*********************************************************************************************/
+/*************************************my update ms2 fast free********************************/
+/*******************************************************************************************/
+inline void Shrouk_env_page_ws_invalidate_fast(struct Env* e, uint32 virtual_address)
+{
+	if (!isPageReplacmentAlgorithmLRU(PG_REP_LRU_LISTS_APPROX))
+	{
+		if(pt_get_page_permissions(e->env_page_directory,virtual_address)&PERM_PRESENT){
+			uint32* ptr_page_table =NULL;
+		    struct WorkingSetElement* Habiba = get_frame_info(e->env_page_directory,virtual_address,&ptr_page_table)->Eman;
+		    unmap_frame(e->env_page_directory, Habiba->virtual_address);
+
+		    if (e->page_last_WS_element == Habiba)
+		    {
+		    	e->page_last_WS_element = LIST_NEXT(Habiba);
+		    }
+		    LIST_REMOVE(&(e->page_WS_list), Habiba);
+
+		    kfree(Habiba);
+
+		}
+
+	}
+	else
+	{
+
+		bool found = 0;
+				struct WorkingSetElement *ptr_WS_element = NULL;
+				LIST_FOREACH(ptr_WS_element, &(e->ActiveList))
+				{
+					if(ROUNDDOWN(ptr_WS_element->virtual_address,PAGE_SIZE) == ROUNDDOWN(virtual_address,PAGE_SIZE))
+					{
+						struct WorkingSetElement* ptr_tmp_WS_element = LIST_FIRST(&(e->SecondList));
+						unmap_frame(e->env_page_directory, ptr_WS_element->virtual_address);
+
+						LIST_REMOVE(&(e->ActiveList), ptr_WS_element);
+
+						/*EDIT*/kfree(ptr_WS_element);
+
+						if(ptr_tmp_WS_element != NULL)
+						{
+							LIST_REMOVE(&(e->SecondList), ptr_tmp_WS_element);
+							LIST_INSERT_TAIL(&(e->ActiveList), ptr_tmp_WS_element);
+							pt_set_page_permissions(e->env_page_directory, ptr_tmp_WS_element->virtual_address, PERM_PRESENT, 0);
+						}
+						found = 1;
+						break;
+					}
+				}
+
+				if (!found)
+				{
+					ptr_WS_element = NULL;
+					LIST_FOREACH(ptr_WS_element, &(e->SecondList))
+					{
+						if(ROUNDDOWN(ptr_WS_element->virtual_address,PAGE_SIZE) == ROUNDDOWN(virtual_address,PAGE_SIZE))
+						{
+							unmap_frame(e->env_page_directory, ptr_WS_element->virtual_address);
+							LIST_REMOVE(&(e->SecondList), ptr_WS_element);
+
+							kfree(ptr_WS_element);
+
+							/*EDIT*/break;
+						}
+					}
+				}
+	}
+}
+/***************************************************************************************/
 inline void env_page_ws_invalidate(struct Env* e, uint32 virtual_address)
 {
 	if (isPageReplacmentAlgorithmLRU(PG_REP_LRU_LISTS_APPROX))

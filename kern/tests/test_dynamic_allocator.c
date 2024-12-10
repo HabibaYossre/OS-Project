@@ -1163,7 +1163,7 @@ void test_free_block_BF()
 		panic("7.3 Failed");
 	}
 
-	cprintf("		7.3: in block coalesces with NEXT [INTERNAL FRAGMENTATION]\n\n") ;
+	cprintf("7.3: in block coalesces with NEXT [INTERNAL FRAGMENTATION]\n\n") ;
 	actualSize = 4*kilo + 10;
 	expected_size = allocSizes[0]+allocSizes[1]; //ROUNDUP(actualSize + sizeOfMetaData,2) ;
 	va = alloc_block(actualSize, DA_BF);
@@ -1209,6 +1209,86 @@ void test_free_block_NF()
 {
 	panic("not implemented");
 }
+void test_realloc_block_FF_COMPLETE()
+	{
+	#if USE_KHEAP
+		panic("test_free_block: the kernel heap should be disabled. make sure USE_KHEAP = 0");
+		return;
+	#endif
+
+		cprintf("===================================================\n");
+		cprintf("***** COMPLETE TEST FOR REALLOC ******\n") ;
+		cprintf("===================================================\n");
+
+		int eval = 0;
+		bool is_correct;
+
+		int initAllocatedSpace = 3 * Mega;
+		initialize_dynamic_allocator(KERNEL_HEAP_START, initAllocatedSpace);
+
+		void *va, *expectedVA;
+
+		// Allocating initial blocks
+		for (int i = 0; i < numOfAllocs; ++i) {
+			for (int j = 0; j < allocCntPerSize; ++j) {
+				va = realloc_block_FF(NULL, allocSizes[i]);
+				if (va == NULL) {
+					panic("Failed to allocate initial block.");
+				}
+				*(short*)va = j; // Store something for verification
+			}
+		}
+
+		// Test realloc with NULL pointer
+		cprintf("1: Test realloc with NULL pointer\n");
+		va = realloc_block_FF(NULL, 1024);
+		expectedVA = (void*)(KERNEL_HEAP_START + sizeof(int) + sizeOfMetaData / 2);
+		if (check_block(va, expectedVA, 1024, 1) == 0) {
+			panic("Test 1 failed: realloc with NULL did not return expected block.");
+		}
+		eval += 10;
+
+		// Test realloc with size 0
+		cprintf("2: Test realloc with size 0\n");
+		va = realloc_block_FF(va, 0);
+		if (va != NULL) {
+			panic("Test 2 failed: realloc with size 0 did not return NULL.");
+		}
+		eval += 10;
+
+		// Reallocate to a larger size
+		cprintf("3: Test realloc to larger size\n");
+		va = realloc_block_FF(startVAs[0], allocSizes[0] + 512);
+		expectedVA = startVAs[0]; // Should stay at the same address if it can expand
+		if (check_block(va, expectedVA, allocSizes[0] + 512, 1) == 0) {
+			panic("Test 3 failed: realloc did not return expected block.");
+		}
+		eval += 15;
+
+		// Reallocate to a smaller size
+		cprintf("4: Test realloc to smaller size\n");
+		va = realloc_block_FF(startVAs[0], allocSizes[0] - 512);
+		if (check_block(va, expectedVA, allocSizes[0] - 512, 1) == 0) {
+			panic("Test 4 failed: realloc to smaller size did not return expected block.");
+		}
+		eval += 15;
+
+		// Check data integrity
+		cprintf("5: Check data integrity after realloc\n");
+		if (*(short*)va != 0) {
+			panic("Test 5 failed: Data integrity check failed after realloc.");
+		}
+		eval += 10;
+
+		// Free the allocated blocks
+		for (int i = 0; i < numOfAllocs; ++i) {
+			for (int j = 0; j < allocCntPerSize; ++j) {
+				free_block(startVAs[i * allocCntPerSize + j]);
+			}
+		}
+
+		cprintf("Congratulations!! test_realloc_block_FF_COMPLETE completed successfully. Evaluation = %d%\n", eval);
+	}
 
 void test_realloc_block_FF()
 {
@@ -1219,6 +1299,7 @@ void test_realloc_block_FF()
 
 	//TODO: [PROJECT'24.MS1 - #09] [3] DYNAMIC ALLOCATOR - test_realloc_block_FF()
 	//CHECK MISSING CASES AND TRY TO TEST THEM !
+
 
 	cprintf("===================================================\n");
 	cprintf("*****NOTE: THIS IS A PARTIAL TEST FOR REALLOC******\n") ;
@@ -1410,6 +1491,7 @@ void test_realloc_block_FF()
 		if (*(startVAs[blockIndex]) != blockIndex || *(midVAs[blockIndex]) != blockIndex ||	*(endVAs[blockIndex]) != blockIndex)
 		{
 			is_correct = 0;
+
 			cprintf("test_realloc_block_FF #3.2.2: WRONG REALLOC! content of the block is not correct. Expected %d\n", blockIndex);
 		}
 
@@ -1501,20 +1583,11 @@ void test_realloc_block_FF()
 	}
 
 	cprintf("[PARTIAL] test realloc_block with FIRST FIT completed. Evaluation = %d%\n", eval);
+	//test_realloc_block_FF_COMPLETE();
 
 }
 
 
-void test_realloc_block_FF_COMPLETE()
-{
-#if USE_KHEAP
-	panic("test_free_block: the kernel heap should be disabled. make sure USE_KHEAP = 0");
-	return;
-#endif
-
-	panic("this is UNSEEN test");
-
-}
 
 
 /********************Helper Functions***************************/

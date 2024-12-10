@@ -299,19 +299,34 @@ void sys_utilities(char* utilityName, int value)
 void* sys_sbrk(int increment)
 {
 	//Comment the following line before start coding...
-	panic("not implemented yet");
-	return NULL;
+	//panic("not implemented yet");
+	return (void*)syscall(SYS_sbrk,(uint32)increment,0,0,0,0);
+	//return NULL;
 }
 
 void sys_free_user_mem(uint32 virtual_address, uint32 size)
 {
 	//Comment the following line before start coding...
-	panic("not implemented yet");
+	//panic("not implemented yet");
+	syscall(SYS_free_user_mem,virtual_address,size,0,0,0);
 }
 
 void sys_allocate_user_mem(uint32 virtual_address, uint32 size)
 {
 	//Comment the following line before start coding...
-	panic("not implemented yet");
+	//panic("not implemented yet");
+	syscall(SYS_allocate_user_mem,virtual_address,size,0,0,0);
 }
 
+/*************************************************************************
+*************************my update MS2 user heap**************************
+**************************************************************************/
+uint32 sys_hard_limit(){
+	return syscall(SYS_hard_limit,0,0,0,0,0);
+}
+uint32 sys_is_free_page(int idx){
+	return syscall(SYS_page_is_free,idx,0,0,0,0);
+}
+void sys_env_set_priority(int32 envID, int priority){
+	syscall(SYS_env_set_priority,envID,priority,0,0,0);
+}

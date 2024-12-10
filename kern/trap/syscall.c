@@ -301,6 +301,15 @@ int sys_pf_calculate_allocated_pages(void)
 /*******************************/
 void sys_free_user_mem(uint32 virtual_address, uint32 size)
 {
+	if(virtual_address<USER_HEAP_START&&virtual_address+size>USER_HEAP_MAX)
+	{//sama:user_heap_max is a constant pointer not an integer
+		env_exit();
+	}
+	else if((uint32*)virtual_address==NULL)
+	{
+		env_exit();
+	}
+
 	if(isBufferingEnabled())
 	{
 		__free_user_mem_with_buffering(cur_env, virtual_address, size);
@@ -315,6 +324,10 @@ void sys_free_user_mem(uint32 virtual_address, uint32 size)
 void sys_allocate_user_mem(uint32 virtual_address, uint32 size)
 {
 	//TODO: [PROJECT'24.MS1 - #03] [2] SYSTEM CALLS - Params Validation
+if(virtual_address<USER_HEAP_START&&virtual_address+size>USER_HEAP_MAX){//sama:user_heap_max is a constant pointer not an integer
+	env_exit();
+}
+else if((uint32*)virtual_address==NULL){env_exit();}
 
 	allocate_user_mem(cur_env, virtual_address, size);
 	return;
@@ -323,7 +336,6 @@ void sys_allocate_user_mem(uint32 virtual_address, uint32 size)
 void sys_allocate_chunk(uint32 virtual_address, uint32 size, uint32 perms)
 {
 	//TODO: [PROJECT'24.MS1 - #03] [2] SYSTEM CALLS - Params Validation
-
 	allocate_chunk(cur_env->env_page_directory, virtual_address, size, perms);
 	return;
 }
@@ -354,9 +366,11 @@ void sys_set_uheap_strategy(uint32 heapStrategy)
 /*******************************/
 /* SHARED MEMORY SYSTEM CALLS */
 /*******************************/
+
+
 int sys_createSharedObject(char* shareName, uint32 size, uint8 isWritable, void* virtual_address)
 {
-	return createSharedObject(cur_env->env_id, shareName, size, isWritable, virtual_address);
+	return createSharedObject(get_cpu_proc()->env_id, shareName, size, isWritable, virtual_address);
 }
 
 int sys_getSizeOfSharedObject(int32 ownerID, char* shareName)
@@ -468,7 +482,10 @@ void sys_run_env(int32 envId)
 {
 	sched_run_env(envId);
 }
-
+/////////////////////////////////////m3///////////////////////////
+void sys_env_set_priority(int32 envID, int priority){
+	env_set_priority( envID,  priority);
+}
 
 //====================================
 /*******************************/
@@ -489,7 +506,9 @@ void sys_bypassPageFault(uint8 instrLength)
 {
 	bypassInstrLength = instrLength;
 }
-
+/*************************************************************************
+*************************my update MS2 user heap**************************
+**************************************************************************/
 
 /**************************************************************************/
 /************************* SYSTEM CALLS HANDLER ***************************/
@@ -505,8 +524,25 @@ uint32 syscall(uint32 syscallno, uint32 a1, uint32 a2, uint32 a3, uint32 a4, uin
 	// Return any appropriate return value.
 	switch(syscallno)
 	{
+	////////////////////////////////M3////////////////////////////
+	case SYS_env_set_priority:
+		sys_env_set_priority((int32)a1, (int)a2);
+		return 0;
+		break;
 	//TODO: [PROJECT'24.MS1 - #02] [2] SYSTEM CALLS - Add suitable code here
+	case SYS_sbrk:
+		return (uint32)sys_sbrk((int)a1);
+		break;
 
+	case SYS_free_user_mem:
+		sys_free_user_mem(a1,(uint32)a2);
+		 return 0;
+		 break;
+
+	case SYS_allocate_user_mem:
+		sys_allocate_user_mem(a1,(uint32)a2);
+			 return 0;
+			 break;
 	//======================================================================
 	case SYS_cputs:
 		sys_cputs((const char*)a1,a2,(uint8)a3);
@@ -594,7 +630,11 @@ uint32 syscall(uint32 syscallno, uint32 a1, uint32 a2, uint32 a3, uint32 a4, uin
 	case SYS_create_env:
 		return sys_create_env((char*)a1, (uint32)a2, (uint32)a3, (uint32)a4);
 		break;
+    /*************************************************************************
+    *************************my update MS2 user heap**************************
+    **************************************************************************/
 
+	//****************************************************************************
 	case SYS_run_env:
 		sys_run_env((int32)a1);
 		return 0;
@@ -671,10 +711,12 @@ uint32 syscall(uint32 syscallno, uint32 a1, uint32 a2, uint32 a3, uint32 a4, uin
 		sys_utilities((char*)a1, (int)a2);
 		return 0;
 
+
 	case NSYSCALLS:
 		return 	-E_INVAL;
 		break;
 	}
 	//panic("syscall not implemented");
 	return -E_INVAL;
+
 }

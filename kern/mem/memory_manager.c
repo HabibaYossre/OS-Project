@@ -391,6 +391,8 @@ int map_frame(uint32 *ptr_page_directory, struct FrameInfo *ptr_frame_info, uint
 			unmap_frame(ptr_page_directory , virtual_address);
 	}
 	ptr_frame_info->references++;
+	//page_number
+	    ptr_frame_info->page_number=virtual_address;
 
 	/*********************************************************************************/
 	/*NEW'23 el7:)

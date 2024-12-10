@@ -456,13 +456,58 @@ int execute_command(char *command_string)
 int process_command(int number_of_arguments, char** arguments)
 {
 	//TODO: [PROJECT'24.MS1 - #01] [1] PLAY WITH CODE! - process_command
-
+	//*************************************************************************************
+	//helper variables
+	bool is_matched=0; //for matched commands
+    int length = (int)strlen(arguments[0]);//length of the entered command
+    //*************************************************************************************
+    //clear found_commands_list after any command
+    struct Command * cmd = NULL;
+    LIST_FOREACH(cmd, &foundCommands){
+    	LIST_REMOVE(&foundCommands,cmd);
+    }
+    //*************************************************************************************
+    //command founded
 	for (int i = 0; i < NUM_OF_COMMANDS; i++)
 	{
-		if (strcmp(arguments[0], commands[i].name) == 0)
+		if (strcmp(arguments[0], commands[i].name) == 0&&((number_of_arguments-1==commands[i].num_of_args)
+			||(number_of_arguments-1>=1&&commands[i].num_of_args==-1)))
 		{
 			return i;
 		}
 	}
+	//*************************************************************************************
+	//command founded but with invalid number of arguments
+	for (int i = 0; i < NUM_OF_COMMANDS; i++)
+	{
+		if (strcmp(arguments[0], commands[i].name) == 0&&number_of_arguments-1!=commands[i].num_of_args)
+		{
+			LIST_INSERT_HEAD(&foundCommands,&commands[i]);
+			return CMD_INV_NUM_ARGS;
+		}
+	}
+	//************************************************************************************
+	//command not founded but matched
+	for (int i = 0; i < NUM_OF_COMMANDS; i++)
+	{
+		int idx=0;
+		char *selected_command=commands[i].name;
+		int command_length=(int) strlen(selected_command);
+		for(int j = 0;j < command_length ;j++){
+			if(selected_command[j]==arguments[0][idx]){
+				idx++;
+			}
+			if(idx==length){
+				LIST_INSERT_HEAD(&foundCommands,&commands[i]);
+				is_matched=1;
+				break;
+			}
+		}
+	}
+	if(is_matched){
+		return CMD_MATCHED;
+	}
+	//************************************************************************************
+	//unknown command
 	return CMD_INVALID;
 }

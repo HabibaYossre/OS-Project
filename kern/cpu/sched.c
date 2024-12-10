@@ -12,9 +12,10 @@
 #include <kern/cpu/picirq.h>
 
 
-uint32 isSchedMethodRR(){if(scheduler_method == SCH_RR) return 1; return 0;}
-uint32 isSchedMethodMLFQ(){if(scheduler_method == SCH_MLFQ) return 1; return 0;}
-uint32 isSchedMethodBSD(){if(scheduler_method == SCH_BSD) return 1; return 0;}
+uint32 isSchedMethodRR(){return (scheduler_method == SCH_RR);}
+uint32 isSchedMethodMLFQ(){return (scheduler_method == SCH_MLFQ); }
+uint32 isSchedMethodBSD(){return(scheduler_method == SCH_BSD); }
+uint32 isSchedMethodPRIRR(){return(scheduler_method == SCH_PRIRR); }
 
 //===================================================================================//
 //============================ SCHEDULER FUNCTIONS ==================================//
@@ -23,6 +24,8 @@ static struct Env* (*sched_next[])(void) = {
 [SCH_RR]    fos_scheduler_RR,
 [SCH_MLFQ]  fos_scheduler_MLFQ,
 [SCH_BSD]   fos_scheduler_BSD,
+[SCH_PRIRR]   fos_scheduler_PRIRR,
+
 };
 
 //===================================
@@ -238,9 +241,49 @@ void sched_init_BSD(uint8 numOfLevels, uint8 quantum)
 	//=========================================
 }
 
+//======================================
+// [6] Initialize PRIORITY RR Scheduler:
+//======================================
+void sched_init_PRIRR(uint8 numOfPriorities, uint8 quantum, uint32 starvThresh)
+{
+	//TODO: [PROJECT'24.MS3 - #07] [3] PRIORITY RR Scheduler - sched_init_PRIRR
+	//Your code is here
+	//Comment the following line
+	//panic("Not implemented yet");
+	//get_cpu_proc()->env_status = ENV_READY; // or ENV_WAITING
+	acquire_spinlock(&ProcessQueues.qlock);
+	ProcessQueues.env_ready_queues = kmalloc(numOfPriorities * sizeof(struct Env_Queue));
+
+	if (ProcessQueues.env_ready_queues == NULL){
+		release_spinlock(&ProcessQueues.qlock);
+		return;
+	}
+	num_of_ready_queues = numOfPriorities;
+	for (int i=0;i<numOfPriorities;i++){
+		init_queue(&ProcessQueues.env_ready_queues[i]);
+	}
+	kclock_set_quantum (quantum);
+	sched_set_starv_thresh(starvThresh);
+	release_spinlock(&ProcessQueues.qlock);
+
+	//quantums[0]= quantum;
+	//cprintf("quantum: %d\n",quantum);
+	//cprintf("quantum[0]: %d\n",quantums[0]);
+
+
+
+	//=========================================
+	//DON'T CHANGE THESE LINES=================
+	uint16 cnt0 = kclock_read_cnt0_latch() ; //read after write to ensure it's set to the desired value
+	cprintf("*	PRIORITY RR scheduler with initial clock = %d\n", cnt0);
+	mycpu()->scheduler_status = SCH_STOPPED;
+	scheduler_method = SCH_PRIRR;
+	//=========================================
+	//=========================================
+}
 
 //=========================
-// [6] RR Scheduler:
+// [7] RR Scheduler:
 //=========================
 struct Env* fos_scheduler_RR()
 {
@@ -274,7 +317,7 @@ struct Env* fos_scheduler_RR()
 }
 
 //=========================
-// [6] MLFQ Scheduler:
+// [8] MLFQ Scheduler:
 //=========================
 struct Env* fos_scheduler_MLFQ()
 {
@@ -293,7 +336,7 @@ struct Env* fos_scheduler_MLFQ()
 }
 
 //=========================
-// [7] BSD Scheduler:
+// [9] BSD Scheduler:
 //=========================
 struct Env* fos_scheduler_BSD()
 {
@@ -308,19 +351,82 @@ struct Env* fos_scheduler_BSD()
 	panic("Not implemented yet");
 
 }
+//=============================
+// [10] PRIORITY RR Scheduler:
+//=============================
+struct Env* fos_scheduler_PRIRR()
+{
+	/*To protect process Qs (or info of current process) in multi-CPU************************/
+	if(!holding_spinlock(&ProcessQueues.qlock))
+		panic("fos_scheduler_PRIRR: q.lock is not held by this CPU while it's expected to be.");
+	/****************************************************************************************/
+	//TODO: [PROJECT'24.MS3 - #08] [3] PRIORITY RR Scheduler - fos_scheduler_PRIRR
+	//Your code is here
+	//Comment the following line
+	//panic("Not implemented yet");
+	//cprintf("****************enter fos_scheduler_PRIRR***************\n ");
+	struct Env* proc;
+	struct Env* nextproc;
+	//acquire_spinlock(&ProcessQueues.qlock);
+	proc = get_cpu_proc();
+	//if (proc->env_status == ENV_RUNNING){
+	if (proc){
+		proc->env_status = ENV_READY;
+		sched_insert_ready(proc);
+	}
+
+	for (int i=0;i<num_of_ready_queues;i++){
+		if (queue_size(&ProcessQueues.env_ready_queues[i])){
+			nextproc= dequeue(&ProcessQueues.env_ready_queues[i]);
+			//nextproc->env_status= ENV_RUNNING;
+			//release_spinlock(&ProcessQueues.qlock);
+			kclock_set_quantum (quantums[0]);
+			return nextproc;
+		}
+	}
+	kclock_set_quantum (quantums[0]);
+	//release_spinlock(&ProcessQueues.qlock);
+	return NULL;
+}
 
 //========================================
-// [8] Clock Interrupt Handler
+// [11] Clock Interrupt Handler
 //	  (Automatically Called Every Quantum)
 //========================================
 void clock_interrupt_handler(struct Trapframe* tf)
 {
-	if (isSchedMethodBSD())
+
+	if (isSchedMethodPRIRR())
 	{
-		//[PROJECT] BSD Scheduler - clock_interrupt_handler
+		//TODO: [PROJECT'24.MS3 - #09] [3] PRIORITY RR Scheduler - clock_interrupt_handler
 		//Your code is here
 		//Comment the following line
-		panic("Not implemented yet");
+		//panic("Not implemented yet");
+		//cprintf("****************enter clock_interrupt_handler***************\n ");
+
+		acquire_spinlock(&ProcessQueues.qlock);
+		//fos_scheduler_PRIRR();
+		struct Env* proc;
+		struct Env* foundproc;
+
+		for (int i=1;i<num_of_ready_queues;i++){
+				LIST_FOREACH(proc,&(ProcessQueues.env_ready_queues[i])){
+					if (timer_ticks()-proc->clockcounter>StarvThresh){
+						foundproc= proc;
+						remove_from_queue(&(ProcessQueues.env_ready_queues[i]), proc);
+						foundproc->priority--;
+						////tring
+						//foundproc->nClocks = 0;
+						proc->clockcounter=timer_ticks();
+						enqueue(&(ProcessQueues.env_ready_queues[i-1]), foundproc);
+					}
+				}
+		}
+		//fos_scheduler_PRIRR();
+		release_spinlock(&ProcessQueues.qlock);
+
+
+
 	}
 
 
@@ -343,6 +449,11 @@ void clock_interrupt_handler(struct Trapframe* tf)
 		yield();
 	}
 	/*****************************************/
+	//acquire_spinlock(&ProcessQueues.qlock);
+	//fos_scheduler_PRIRR();
+	//release_spinlock(&ProcessQueues.qlock);
+
+
 }
 
 //===================================================================

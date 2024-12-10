@@ -20,6 +20,7 @@ void init_channel(struct Channel *chan, char *name)
 	init_queue(&(chan->queue));
 }
 
+
 //===============================
 // 2) SLEEP ON A GIVEN CHANNEL:
 //===============================
@@ -30,9 +31,17 @@ void sleep(struct Channel *chan, struct spinlock* lk)
 {
 	//TODO: [PROJECT'24.MS1 - #10] [4] LOCKS - sleep
 	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-	panic("sleep is not implemented yet");
+	//panic("sleep is not implemented yet");
 	//Your Code is Here...
-
+    struct Env *current_process=get_cpu_proc();
+    current_process->channel=chan;
+    current_process->env_status=ENV_BLOCKED	;
+    enqueue(&(chan->queue),current_process);
+    release_spinlock(lk);
+    acquire_spinlock(&ProcessQueues.qlock);
+    sched();
+    release_spinlock(&ProcessQueues.qlock);
+    acquire_spinlock(lk);
 }
 
 //==================================================
@@ -46,8 +55,17 @@ void wakeup_one(struct Channel *chan)
 {
 	//TODO: [PROJECT'24.MS1 - #11] [4] LOCKS - wakeup_one
 	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-	panic("wakeup_one is not implemented yet");
+	//panic("wakeup_one is not implemented yet");
 	//Your Code is Here...
+	acquire_spinlock(&ProcessQueues.qlock);
+	if(queue_size(&chan->queue)){
+	   struct Env* first_process;
+	   first_process=dequeue(&chan->queue);
+	   first_process->env_status=ENV_READY;
+	   first_process->channel=NULL;
+	   sched_insert_ready(first_process);
+	}
+    release_spinlock(&ProcessQueues.qlock);
 }
 
 //====================================================
@@ -62,8 +80,16 @@ void wakeup_all(struct Channel *chan)
 {
 	//TODO: [PROJECT'24.MS1 - #12] [4] LOCKS - wakeup_all
 	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-	panic("wakeup_all is not implemented yet");
+	//panic("wakeup_all is not implemented yet");
 	//Your Code is Here...
-
+	acquire_spinlock(&ProcessQueues.qlock);
+	struct Env* first_process;
+	while(queue_size(&chan->queue)){
+		first_process=dequeue(&chan->queue);
+		first_process->env_status=ENV_READY;
+		first_process->channel=NULL;
+		sched_insert_ready(first_process);
+	}
+	release_spinlock(&ProcessQueues.qlock);
 }
 

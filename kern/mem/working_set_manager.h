@@ -9,7 +9,12 @@
 #define KERN_MEM_WORKING_SET_MANAGER_H_
 
 #include <inc/environment_definitions.h>
+/*********************************************************************************************/
+/*************************************my update ms2 fast free********************************/
+/*******************************************************************************************/
+inline void Shrouk_env_page_ws_invalidate_fast(struct Env *, uint32);
 
+/*****************************************************************************************/
 // Page WS helper functions ===================================================
 void env_page_ws_print(struct Env *curenv);
 inline void env_page_ws_invalidate(struct Env* e, uint32 virtual_address);
