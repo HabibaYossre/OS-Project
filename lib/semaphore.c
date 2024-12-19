@@ -2,7 +2,6 @@
 
 #include "inc/lib.h"
 
-<<<<<<< HEAD
 
 struct semaphore create_semaphore(char *semaphoreName, uint32 value)
 {
@@ -44,26 +43,10 @@ struct semaphore get_semaphore(int32 ownerEnvID, char* semaphoreName)
 		 panic("Failed to get semaphore");
 	}
 	return sem;
-=======
-struct semaphore create_semaphore(char *semaphoreName, uint32 value)
-{
-	//[PROJECT'24.MS3]
-	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-	panic("create_semaphore is not implemented yet");
-	//Your Code is Here...
-}
-struct semaphore get_semaphore(int32 ownerEnvID, char* semaphoreName)
-{
-	//[PROJECT'24.MS3]
-	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-	panic("get_semaphore is not implemented yet");
-	//Your Code is Here...
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 void wait_semaphore(struct semaphore sem)
 {
-<<<<<<< HEAD
 	//TODO: [PROJECT'24.MS3 - #04] [2] USER-LEVEL SEMAPHORE - wait_semaphore
 	//panic("wait_semaphore is not implemented yet");
 
@@ -109,20 +92,6 @@ void signal_semaphore(struct semaphore sem)
 
 			/*release*/
 			sem.semdata->lock = 0;
-=======
-	//[PROJECT'24.MS3]
-	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-	panic("wait_semaphore is not implemented yet");
-	//Your Code is Here...
-}
-
-void signal_semaphore(struct semaphore sem)
-{
-	//[PROJECT'24.MS3]
-	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-	panic("signal_semaphore is not implemented yet");
-	//Your Code is Here...
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 int semaphore_count(struct semaphore sem)

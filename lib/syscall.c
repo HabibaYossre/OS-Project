@@ -299,31 +299,21 @@ void sys_utilities(char* utilityName, int value)
 void* sys_sbrk(int increment)
 {
 	//Comment the following line before start coding...
-<<<<<<< HEAD
 	//panic("not implemented yet");
 	return (void*)syscall(SYS_sbrk,(uint32)increment,0,0,0,0);
 	//return NULL;
-=======
-	panic("not implemented yet");
-	return NULL;
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 void sys_free_user_mem(uint32 virtual_address, uint32 size)
 {
 	//Comment the following line before start coding...
-<<<<<<< HEAD
 	//panic("not implemented yet");
 	syscall(SYS_free_user_mem,virtual_address,size,0,0,0);
-=======
-	panic("not implemented yet");
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 void sys_allocate_user_mem(uint32 virtual_address, uint32 size)
 {
 	//Comment the following line before start coding...
-<<<<<<< HEAD
 	//panic("not implemented yet");
 	syscall(SYS_allocate_user_mem,virtual_address,size,0,0,0);
 }
@@ -354,8 +344,3 @@ void sys_signal_semaphore(struct Env_Queue *queue, uint32 *lock)
 void sys_env_set_priority(int32 envID, int priority){
     syscall(SYS_env_set_priority,envID,priority,0,0,0);
 }
-=======
-	panic("not implemented yet");
-}
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c

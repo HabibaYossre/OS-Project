@@ -416,7 +416,6 @@ int tst_kheap(int number_of_arguments, char **arguments)
 		}
 		return 0;
 	}
-<<<<<<< HEAD
 	// Test Fast Implementation of kmalloc/kfree FF
 	else if(strcmp(arguments[2], "fast") == 0)
 	{
@@ -430,8 +429,6 @@ int tst_kheap(int number_of_arguments, char **arguments)
 		}
 		return 0;
 	}
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	// Test 2-kfree: tst kheap FF kfree
 	else if(strcmp(arguments[2], "kfree") == 0)
 	{

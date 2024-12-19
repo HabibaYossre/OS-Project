@@ -229,7 +229,6 @@ struct Env* env_create(char* user_program_name, unsigned int page_WS_size, unsig
 			uint32 end_first_page = ROUNDUP(seg_va , PAGE_SIZE);
 			uint32 offset_first_page = seg_va  - start_first_page ;
 
-<<<<<<< HEAD
 			uint8 *src_ptr =  (uint8*) dataSrc_va;
 			uint8 *dst_ptr =  (uint8*) (ptr_temp_page + offset_first_page);
 			int i;
@@ -247,23 +246,6 @@ struct Env* env_create(char* user_program_name, unsigned int page_WS_size, unsig
 				//LOG_STRING(" -------------------- PAGE FILE: 1st page is written");
 			}
 
-=======
-			memset(ptr_temp_page , 0, PAGE_SIZE);
-			uint8 *src_ptr =  (uint8*) dataSrc_va;
-			uint8 *dst_ptr =  (uint8*) (ptr_temp_page + offset_first_page);
-			int i;
-			for (i = seg_va ; i < end_first_page ; i++, src_ptr++,dst_ptr++ )
-			{
-				*dst_ptr = *src_ptr ;
-			}
-
-			if (pf_add_env_page(e, start_first_page, ptr_temp_page) == E_NO_PAGE_FILE_SPACE)
-				panic("ERROR: Page File OUT OF SPACE. can't load the program in Page file!!");
-
-			//LOG_STRING(" -------------------- PAGE FILE: 1st page is written");
-
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 			/// 7.3) Start writing the segment ,from 2nd page until before last page, to page file ...
 
 			uint32 start_last_page = ROUNDDOWN(seg_va  + seg->size_in_file, PAGE_SIZE) ;
@@ -883,20 +865,13 @@ uint32 __cur_k_stk = KERNEL_HEAP_START;
 void* create_user_kern_stack(uint32* ptr_user_page_directory)
 {
 #if USE_KHEAP
-<<<<<<< HEAD
 	//TODO: [PROJECT'24.MS2 - #07] [2] FAULT HANDLER I - create_user_kern_stack
 	// Write your code here, remove the panic and write your code
 //	panic("create_user_kern_stack() is not implemented yet...!!");
-=======
-	//[PROJECT'24.MS2]
-	// Write your code here, remove the panic and write your code
-	panic("create_user_kern_stack() is not implemented yet...!!");
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 	//allocate space for the user kernel stack.
 	//remember to leave its bottom page as a GUARD PAGE (i.e. not mapped)
 	//return a pointer to the start of the allocated space (including the GUARD PAGE)
-<<<<<<< HEAD
 	//On failure: panic
 
 	void* stack_base = kmalloc(KERNEL_STACK_SIZE);
@@ -909,8 +884,6 @@ void* create_user_kern_stack(uint32* ptr_user_page_directory)
 		return stack_base;
 
 
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 
 #else
@@ -945,23 +918,16 @@ void delete_user_kern_stack(struct Env* e)
 //===============================================
 void initialize_uheap_dynamic_allocator(struct Env* e, uint32 daStart, uint32 daLimit)
 {
-<<<<<<< HEAD
 	//TODO: [PROJECT'24.MS2 - #10] [3] USER HEAP - initialize_uheap_dynamic_allocator
-=======
-	//[PROJECT'24.MS2] Initialize the dynamic allocator of the user heap
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	//Remember:
 	//	1) there's no initial allocations for the dynamic allocator of the user heap (=0)
 	//	2) call the initialize_dynamic_allocator(..) to complete the initialization
 	//panic("initialize_uheap_dynamic_allocator() is not implemented yet...!!");
-<<<<<<< HEAD
 
 	e->startAdd = daStart;
 	e->hardLimit = daLimit;
 	e->sbr= daStart;// because size=0
 	initialize_dynamic_allocator(daStart,0);
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 //==============================================================
@@ -1268,10 +1234,7 @@ void cleanup_buffers(struct Env* e)
 }
 
 
-<<<<<<< HEAD
 
 
 
 
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c

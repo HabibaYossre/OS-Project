@@ -1,18 +1,12 @@
 // Test the free of shared variables
 #include <inc/lib.h>
 
-<<<<<<< HEAD
 extern volatile bool printStats;
 void
 _main(void)
 {
 	printStats = 0;
 
-=======
-void
-_main(void)
-{
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	/*=================================================*/
 	//Initial test to ensure it works on "PLACEMENT" not "REPLACEMENT"
 #if USE_KHEAP
@@ -35,32 +29,19 @@ _main(void)
 	inctst();
 	cprintf("Slave B1 please be patient ...\n");
 
-<<<<<<< HEAD
 	//sleep a while to allow the master to remove x & z and be completed.
 	env_sleep(6000);
 	while (gettst()!=3) ;// panic("test failed");
-=======
-	//sleep a while to allow the master to remove x & z
-	env_sleep(6000);
-	while (gettst()!=2) ;// panic("test failed");
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 	freeFrames = sys_calculate_free_frames() ;
 
 	sfree(x);
 	cprintf("Slave B1 env removed x\n");
-<<<<<<< HEAD
 	expected = 2+1; /*2pages+1table*/
 	if ((sys_calculate_free_frames() - freeFrames) !=  expected) panic("B1 wrong free: frames removed not equal %d !, Expected:\nfrom the env: 1 table and 2 for frames of x\nframes_storage of x: should be cleared now\n", expected);
 
 	//To indicate that it's completed successfully
 	cprintf("SlaveB1 is completed.\n");
-=======
-	expected = 1+1; /*1page+1table*/
-	if ((sys_calculate_free_frames() - freeFrames) !=  expected) panic("B1 wrong free: frames removed not equal 4 !, correct frames to be removed are 4:\nfrom the env: 1 table and 1 for frame of x\nframes_storage of x: should be cleared now\n");
-
-	//To indicate that it's completed successfully
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	inctst();
 	return;
 }

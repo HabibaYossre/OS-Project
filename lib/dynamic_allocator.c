@@ -8,10 +8,6 @@
 #include <inc/string.h>
 #include "../inc/dynamic_allocator.h"
 
-<<<<<<< HEAD
-=======
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 //==================================================================================//
 //============================== GIVEN FUNCTIONS ===================================//
 //==================================================================================//
@@ -75,10 +71,7 @@ void print_blocks_list(struct MemBlock_LIST list)
 	{
 		cprintf("(size: %d, isFree: %d)\n", get_block_size(blk), is_free_block(blk)) ;
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	cprintf("=========================================\n");
 
 }
@@ -110,7 +103,6 @@ void initialize_dynamic_allocator(uint32 daStart, uint32 initSizeOfAllocatedSpac
 
 	//TODO: [PROJECT'24.MS1 - #04] [3] DYNAMIC ALLOCATOR - initialize_dynamic_allocator
 	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-<<<<<<< HEAD
 	//panic("initialize_dynamic_allocator is not implemented yet");
 	//Your Code is Here...
 	LIST_INIT(&freeBlocksList);
@@ -127,10 +119,6 @@ void initialize_dynamic_allocator(uint32 daStart, uint32 initSizeOfAllocatedSpac
 							LIST_INSERT_HEAD(&freeBlocksList, FirstClass);
 							//cprintf("AAAAAAAAAAAAAAAAinitSizeOfAllocatedSpace: %u\n", initSizeOfAllocatedSpace);
 
-=======
-	panic("initialize_dynamic_allocator is not implemented yet");
-	//Your Code is Here...
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 }
 //==================================
@@ -138,7 +126,6 @@ void initialize_dynamic_allocator(uint32 daStart, uint32 initSizeOfAllocatedSpac
 //==================================
 void set_block_data(void* va, uint32 totalSize, bool isAllocated)
 {
-<<<<<<< HEAD
 
 		//TODO: [PROJECT'24.MS1 - #05] [3] DYNAMIC ALLOCATOR - set_block_data
 		//COMMENT THE FOLLOWING LINE BEFORE START CODING
@@ -151,19 +138,12 @@ void set_block_data(void* va, uint32 totalSize, bool isAllocated)
 			    *header = totalSize | (isAllocated ? 1 : 0);
 			    *footer = totalSize | (isAllocated ? 1 : 0);
 
-=======
-	//TODO: [PROJECT'24.MS1 - #05] [3] DYNAMIC ALLOCATOR - set_block_data
-	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-	panic("set_block_data is not implemented yet");
-	//Your Code is Here...
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 
 //=========================================
 // [3] ALLOCATE BLOCK BY FIRST FIT:
 //=========================================
-<<<<<<< HEAD
 void* merg_next(void* va){
 	uint32* va_next=(uint32*)(LIST_NEXT((struct BlockElement*)((uint32*)va)));
 	uint32* va_cur=(uint32*)va;
@@ -276,32 +256,6 @@ LIST_FOREACH(blk, &freeBlocksList) {
     return alloc_block_FF(size);
 //cprintf("New space allocated: %p\n", new_space);
 //return (void *)((uint32 *)new_space);
-=======
-void *alloc_block_FF(uint32 size)
-{
-	//==================================================================================
-	//DON'T CHANGE THESE LINES==========================================================
-	//==================================================================================
-	{
-		if (size % 2 != 0) size++;	//ensure that the size is even (to use LSB as allocation flag)
-		if (size < DYN_ALLOC_MIN_BLOCK_SIZE)
-			size = DYN_ALLOC_MIN_BLOCK_SIZE ;
-		if (!is_initialized)
-		{
-			uint32 required_size = size + 2*sizeof(int) /*header & footer*/ + 2*sizeof(int) /*da begin & end*/ ;
-			uint32 da_start = (uint32)sbrk(ROUNDUP(required_size, PAGE_SIZE)/PAGE_SIZE);
-			uint32 da_break = (uint32)sbrk(0);
-			initialize_dynamic_allocator(da_start, da_break - da_start);
-		}
-	}
-	//==================================================================================
-	//==================================================================================
-
-	//TODO: [PROJECT'24.MS1 - #06] [3] DYNAMIC ALLOCATOR - alloc_block_FF
-	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-	panic("alloc_block_FF is not implemented yet");
-	//Your Code is Here...
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 }
 //=========================================
@@ -309,7 +263,6 @@ void *alloc_block_FF(uint32 size)
 //=========================================
 void *alloc_block_BF(uint32 size)
 {
-<<<<<<< HEAD
 	 if (size == 0) return NULL;
 	    size = (size % 2 != 0) ? size + 1 : size;
 	    if (size < DYN_ALLOC_MIN_BLOCK_SIZE) size = DYN_ALLOC_MIN_BLOCK_SIZE;
@@ -348,19 +301,11 @@ void *alloc_block_BF(uint32 size)
 	    }
 
 	    return alloc_at(best_fit, total_size);
-=======
-	//TODO: [PROJECT'24.MS1 - BONUS] [3] DYNAMIC ALLOCATOR - alloc_block_BF
-	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-	panic("alloc_block_BF is not implemented yet");
-	//Your Code is Here...
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 //===================================================
 // [5] FREE BLOCK WITH COALESCING:
 //===================================================
-<<<<<<< HEAD
 /*void* merg_next(void* va){
 	uint32* va_next=(uint32*)(LIST_NEXT((struct BlockElement*)((uint32*)va)));
 	uint32* va_cur=(uint32*)va;
@@ -382,13 +327,10 @@ void* merg_prev(void* va){
 	LIST_REMOVE(&freeBlocksList,(struct BlockElement*)va_cur);
 	return (void*)va_prev;
 }*/
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 void free_block(void *va)
 {
 	//TODO: [PROJECT'24.MS1 - #07] [3] DYNAMIC ALLOCATOR - free_block
 	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-<<<<<<< HEAD
 	//panic("free_block is not implemented yet");
 	//Your Code is Here...
 	if(is_free_block(va)||get_block_size(va)==(uint32)0||va==NULL){
@@ -497,23 +439,6 @@ void* realloc_block_FF(void* va, uint32 new_size) {
 }
 
 
-=======
-	panic("free_block is not implemented yet");
-	//Your Code is Here...
-}
-
-//=========================================
-// [6] REALLOCATE BLOCK BY FIRST FIT:
-//=========================================
-void *realloc_block_FF(void* va, uint32 new_size)
-{
-	//TODO: [PROJECT'24.MS1 - #08] [3] DYNAMIC ALLOCATOR - realloc_block_FF
-	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-	panic("realloc_block_FF is not implemented yet");
-	//Your Code is Here...
-}
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 /*********************************************************************************************/
 /*********************************************************************************************/
 /*********************************************************************************************/

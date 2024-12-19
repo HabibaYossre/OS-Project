@@ -15,7 +15,6 @@ void _main(void)
 	int32 parentenvID = sys_getparentenvid();
 
 	int ret;
-<<<<<<< HEAD
 
 	/*[1] GET SEMAPHORES*/
 	struct semaphore ready = get_semaphore(parentenvID, "Ready");
@@ -29,9 +28,6 @@ void _main(void)
 	int* consMutexOwnerID = sget(parentenvID, "cons_mutex ownerID") ;
 	struct semaphore cons_mutex = get_semaphore(*consMutexOwnerID, "Console Mutex");
 
-=======
-	/*[1] GET SHARED VARs*/
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	//Get the shared array & its size
 	int *numOfElements = NULL;
 	int *sharedArray = NULL;
@@ -39,15 +35,7 @@ void _main(void)
 	numOfElements = sget(parentenvID, "arrSize") ;
 	//PrintElements(sharedArray, *numOfElements);
 
-<<<<<<< HEAD
 	/*[4] DO THE JOB*/
-=======
-	//Get the check-finishing counter
-	int *finishedCount = NULL;
-	finishedCount = sget(parentenvID, "finishedCount") ;
-
-	/*[2] DO THE JOB*/
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	//take a copy from the original array
 	int *sortedArray;
 
@@ -62,7 +50,6 @@ void _main(void)
 //	Right = smalloc("mergesortRightArr", sizeof(int) * (*numOfElements), 1) ;
 
 	MSort(sortedArray, 1, *numOfElements);
-<<<<<<< HEAD
 
 	wait_semaphore(cons_mutex);
 	{
@@ -74,13 +61,6 @@ void _main(void)
 
 	/*[5] DECLARE FINISHING*/
 	signal_semaphore(finished);
-=======
-	cprintf("Merge sort is Finished!!!!\n") ;
-
-	/*[3] SHARE THE RESULTS & DECLARE FINISHING*/
-	(*finishedCount)++ ;
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 void Swap(int *Elements, int First, int Second)

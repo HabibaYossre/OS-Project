@@ -28,10 +28,7 @@ static inline uint8 isKHeapPlacementStrategyFIRSTFIT(){if(_KHeapPlacementStrateg
 static inline uint8 isKHeapPlacementStrategyBESTFIT(){if(_KHeapPlacementStrategy == KHP_PLACE_BESTFIT) return 1; return 0;}
 static inline uint8 isKHeapPlacementStrategyNEXTFIT(){if(_KHeapPlacementStrategy == KHP_PLACE_NEXTFIT) return 1; return 0;}
 static inline uint8 isKHeapPlacementStrategyWORSTFIT(){if(_KHeapPlacementStrategy == KHP_PLACE_WORSTFIT) return 1; return 0;}
-<<<<<<< HEAD
 struct spinlock raheeq_lock;
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 //***********************************
 
@@ -42,19 +39,12 @@ void *krealloc(void *virtual_address, unsigned int new_size);
 unsigned int kheap_virtual_address(unsigned int physical_address);
 unsigned int kheap_physical_address(unsigned int virtual_address);
 
-<<<<<<< HEAD
 int numOfKheapVACalls,numoffreepages ;
 
 
 //TODO: [PROJECT'24.MS2 - #01] [1] KERNEL HEAP - add suitable code here
 uint32 startAdd,hardLimit,sbr;
 
-=======
-int numOfKheapVACalls ;
-
-
-//[PROJECT'24.MS2] add suitable code here
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 
 #endif // FOS_KERN_KHEAP_H_

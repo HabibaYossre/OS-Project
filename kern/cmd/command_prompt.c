@@ -456,7 +456,6 @@ int execute_command(char *command_string)
 int process_command(int number_of_arguments, char** arguments)
 {
 	//TODO: [PROJECT'24.MS1 - #01] [1] PLAY WITH CODE! - process_command
-<<<<<<< HEAD
 	//*************************************************************************************
 	//helper variables
 	bool is_matched=0; //for matched commands
@@ -473,17 +472,10 @@ int process_command(int number_of_arguments, char** arguments)
 	{
 		if (strcmp(arguments[0], commands[i].name) == 0&&((number_of_arguments-1==commands[i].num_of_args)
 			||(number_of_arguments-1>=1&&commands[i].num_of_args==-1)))
-=======
-
-	for (int i = 0; i < NUM_OF_COMMANDS; i++)
-	{
-		if (strcmp(arguments[0], commands[i].name) == 0)
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		{
 			return i;
 		}
 	}
-<<<<<<< HEAD
 	//*************************************************************************************
 	//command founded but with invalid number of arguments
 	for (int i = 0; i < NUM_OF_COMMANDS; i++)
@@ -517,7 +509,5 @@ int process_command(int number_of_arguments, char** arguments)
 	}
 	//************************************************************************************
 	//unknown command
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	return CMD_INVALID;
 }

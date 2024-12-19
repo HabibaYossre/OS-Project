@@ -125,7 +125,6 @@ DECLARE_START_OF(fib_memomize);
 DECLARE_START_OF(fib_loop);
 DECLARE_START_OF(matrix_operations);
 
-<<<<<<< HEAD
 DECLARE_START_OF(tst_chan_all_master);
 DECLARE_START_OF(tst_chan_all_slave);
 DECLARE_START_OF(tst_chan_one_master);
@@ -140,6 +139,4 @@ DECLARE_START_OF(tst_page_replacement_nthclock_1);
 DECLARE_START_OF(tst_page_replacement_nthclock_2);
 DECLARE_START_OF(tst_page_replacement_stack);
 
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 #endif /* KERN_USER_PROGRAMS_H_ */

@@ -27,14 +27,10 @@ struct Share
 	uint32 references;
 	//sharing permissions (0: ReadOnly, 1:Writable)
 	uint8 isWritable;
-<<<<<<< HEAD
 	//========================================helper ms2 free_shared_object==================================
 	void* startsddrc;
 	void* startsddrg;
 	//=======================================================================================================
-=======
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	//to store frames to be shared
 	struct FrameInfo** framesStorage;
 
@@ -56,29 +52,14 @@ LIST_HEAD(Share_List, Share);		// Declares 'struct Share_List'
 		struct Share_List shares_list ;	//List of all share variables created by any process
 		struct spinlock shareslock;		//Use it to protect the shares_list in the kernel
 	}AllShares;
-<<<<<<< HEAD
 
 	void sharing_init();
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 #endif
 
 int createSharedObject(int32 ownerID, char* shareName, uint32 size, uint8 isWritable, void* virtual_address);
 int getSizeOfSharedObject(int32 ownerID, char* shareName);
 int getSharedObject(int32 ownerID, char* shareName, void* virtual_address);
 int freeSharedObject(int32 sharedObjectID, void *startVA);
-<<<<<<< HEAD
 int get_id_by_virtual_address(void* virtual_address);
-=======
-
-//2014
-inline struct FrameInfo** create_frames_storage();
-
-//2017
-struct Share* get_share(int32 ownerID, char* name);
-void 	create_shares_array(uint32 numOfElements);
-int 	allocate_share_object(struct Share **allocatedObject);
-void 	free_share(struct Share* ptrShare);
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 #endif /* FOS_SHARED_MEMORY_MANAGER_H */

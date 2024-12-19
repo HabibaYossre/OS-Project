@@ -20,10 +20,7 @@ void init_channel(struct Channel *chan, char *name)
 	init_queue(&(chan->queue));
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 //===============================
 // 2) SLEEP ON A GIVEN CHANNEL:
 //===============================
@@ -34,7 +31,6 @@ void sleep(struct Channel *chan, struct spinlock* lk)
 {
 	//TODO: [PROJECT'24.MS1 - #10] [4] LOCKS - sleep
 	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-<<<<<<< HEAD
 	//panic("sleep is not implemented yet");
 	//Your Code is Here...
     struct Env *current_process=get_cpu_proc();
@@ -46,11 +42,6 @@ void sleep(struct Channel *chan, struct spinlock* lk)
     sched();
     release_spinlock(&ProcessQueues.qlock);
     acquire_spinlock(lk);
-=======
-	panic("sleep is not implemented yet");
-	//Your Code is Here...
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 //==================================================
@@ -64,7 +55,6 @@ void wakeup_one(struct Channel *chan)
 {
 	//TODO: [PROJECT'24.MS1 - #11] [4] LOCKS - wakeup_one
 	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-<<<<<<< HEAD
 	//panic("wakeup_one is not implemented yet");
 	//Your Code is Here...
 	acquire_spinlock(&ProcessQueues.qlock);
@@ -76,10 +66,6 @@ void wakeup_one(struct Channel *chan)
 	   sched_insert_ready(first_process);
 	}
     release_spinlock(&ProcessQueues.qlock);
-=======
-	panic("wakeup_one is not implemented yet");
-	//Your Code is Here...
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 //====================================================
@@ -94,7 +80,6 @@ void wakeup_all(struct Channel *chan)
 {
 	//TODO: [PROJECT'24.MS1 - #12] [4] LOCKS - wakeup_all
 	//COMMENT THE FOLLOWING LINE BEFORE START CODING
-<<<<<<< HEAD
 	//panic("wakeup_all is not implemented yet");
 	//Your Code is Here...
 	acquire_spinlock(&ProcessQueues.qlock);
@@ -106,10 +91,5 @@ void wakeup_all(struct Channel *chan)
 		sched_insert_ready(first_process);
 	}
 	release_spinlock(&ProcessQueues.qlock);
-=======
-	panic("wakeup_all is not implemented yet");
-	//Your Code is Here...
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 

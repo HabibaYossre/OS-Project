@@ -1163,11 +1163,7 @@ void test_free_block_BF()
 		panic("7.3 Failed");
 	}
 
-<<<<<<< HEAD
 	cprintf("7.3: in block coalesces with NEXT [INTERNAL FRAGMENTATION]\n\n") ;
-=======
-	cprintf("		7.3: in block coalesces with NEXT [INTERNAL FRAGMENTATION]\n\n") ;
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	actualSize = 4*kilo + 10;
 	expected_size = allocSizes[0]+allocSizes[1]; //ROUNDUP(actualSize + sizeOfMetaData,2) ;
 	va = alloc_block(actualSize, DA_BF);
@@ -1213,7 +1209,6 @@ void test_free_block_NF()
 {
 	panic("not implemented");
 }
-<<<<<<< HEAD
 void test_realloc_block_FF_COMPLETE()
 	{
 	#if USE_KHEAP
@@ -1294,8 +1289,6 @@ void test_realloc_block_FF_COMPLETE()
 
 		cprintf("Congratulations!! test_realloc_block_FF_COMPLETE completed successfully. Evaluation = %d%\n", eval);
 	}
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 void test_realloc_block_FF()
 {
@@ -1307,10 +1300,7 @@ void test_realloc_block_FF()
 	//TODO: [PROJECT'24.MS1 - #09] [3] DYNAMIC ALLOCATOR - test_realloc_block_FF()
 	//CHECK MISSING CASES AND TRY TO TEST THEM !
 
-<<<<<<< HEAD
 
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	cprintf("===================================================\n");
 	cprintf("*****NOTE: THIS IS A PARTIAL TEST FOR REALLOC******\n") ;
 	cprintf("You need to pick-up the missing tests and test them\n") ;
@@ -1501,10 +1491,7 @@ void test_realloc_block_FF()
 		if (*(startVAs[blockIndex]) != blockIndex || *(midVAs[blockIndex]) != blockIndex ||	*(endVAs[blockIndex]) != blockIndex)
 		{
 			is_correct = 0;
-<<<<<<< HEAD
 
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 			cprintf("test_realloc_block_FF #3.2.2: WRONG REALLOC! content of the block is not correct. Expected %d\n", blockIndex);
 		}
 
@@ -1596,27 +1583,11 @@ void test_realloc_block_FF()
 	}
 
 	cprintf("[PARTIAL] test realloc_block with FIRST FIT completed. Evaluation = %d%\n", eval);
-<<<<<<< HEAD
 	//test_realloc_block_FF_COMPLETE();
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 }
 
 
-<<<<<<< HEAD
-=======
-void test_realloc_block_FF_COMPLETE()
-{
-#if USE_KHEAP
-	panic("test_free_block: the kernel heap should be disabled. make sure USE_KHEAP = 0");
-	return;
-#endif
-
-	panic("this is UNSEEN test");
-
-}
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 
 /********************Helper Functions***************************/

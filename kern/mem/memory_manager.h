@@ -68,10 +68,6 @@ int get_page_table(uint32 *ptr_page_directory, const uint32 virtual_address, uin
 struct FrameInfo *get_frame_info(uint32 *ptr_page_directory, uint32 virtual_address, uint32 **ptr_page_table);
 void decrement_references(struct FrameInfo* ptr_frame_info);
 void initialize_frame_info(struct FrameInfo *ptr_frame_info);
-<<<<<<< HEAD
-=======
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 static inline uint32 to_frame_number(struct FrameInfo *ptr_frame_info)
 {
 	return ptr_frame_info - frames_info;

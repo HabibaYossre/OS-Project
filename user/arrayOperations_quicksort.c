@@ -4,11 +4,7 @@
 void Swap(int *Elements, int First, int Second);
 void PrintElements(int *Elements, int NumOfElements);
 
-<<<<<<< HEAD
 void QuickSort(int *Elements, int NumOfElements);
-=======
-void MatrixMultiply(int *Elements, int NumOfElements);
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 void QSort(int *Elements,int NumOfElements, int startIndex, int finalIndex);
 
 void _main(void)
@@ -17,7 +13,6 @@ void _main(void)
 	int32 parentenvID = sys_getparentenvid();
 
 	int ret;
-<<<<<<< HEAD
 	/*[1] GET SEMAPHORES*/
 	struct semaphore ready = get_semaphore(parentenvID, "Ready");
 	struct semaphore finished = get_semaphore(parentenvID, "Finished");
@@ -30,24 +25,13 @@ void _main(void)
 	int* consMutexOwnerID = sget(parentenvID, "cons_mutex ownerID") ;
 	struct semaphore cons_mutex = get_semaphore(*consMutexOwnerID, "Console Mutex");
 
-=======
-	/*[1] GET SHARED VARs*/
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	//Get the shared array & its size
 	int *numOfElements = NULL;
 	int *sharedArray = NULL;
 	sharedArray = sget(parentenvID,"arr") ;
 	numOfElements = sget(parentenvID,"arrSize") ;
 
-<<<<<<< HEAD
 	/*[4] DO THE JOB*/
-=======
-	//Get the check-finishing counter
-	int *finishedCount = NULL;
-	finishedCount = sget(parentenvID,"finishedCount") ;
-
-	/*[2] DO THE JOB*/
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	//take a copy from the original array
 	int *sortedArray;
 	sortedArray = smalloc("quicksortedArr", sizeof(int) * *numOfElements, 0) ;
@@ -56,7 +40,6 @@ void _main(void)
 	{
 		sortedArray[i] = sharedArray[i];
 	}
-<<<<<<< HEAD
 	QuickSort(sortedArray, *numOfElements);
 
 	wait_semaphore(cons_mutex);
@@ -73,18 +56,6 @@ void _main(void)
 
 ///Quick sort
 void QuickSort(int *Elements, int NumOfElements)
-=======
-	MatrixMultiply(sortedArray, *numOfElements);
-	cprintf("Quick sort is Finished!!!!\n") ;
-
-	/*[3] SHARE THE RESULTS & DECLARE FINISHING*/
-	(*finishedCount)++ ;
-
-}
-
-///Quick sort
-void MatrixMultiply(int *Elements, int NumOfElements)
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 {
 	QSort(Elements, NumOfElements, 0, NumOfElements-1) ;
 }

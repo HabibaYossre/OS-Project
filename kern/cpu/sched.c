@@ -12,16 +12,10 @@
 #include <kern/cpu/picirq.h>
 
 
-<<<<<<< HEAD
 uint32 isSchedMethodRR(){return (scheduler_method == SCH_RR);}
 uint32 isSchedMethodMLFQ(){return (scheduler_method == SCH_MLFQ); }
 uint32 isSchedMethodBSD(){return(scheduler_method == SCH_BSD); }
 uint32 isSchedMethodPRIRR(){return(scheduler_method == SCH_PRIRR); }
-=======
-uint32 isSchedMethodRR(){if(scheduler_method == SCH_RR) return 1; return 0;}
-uint32 isSchedMethodMLFQ(){if(scheduler_method == SCH_MLFQ) return 1; return 0;}
-uint32 isSchedMethodBSD(){if(scheduler_method == SCH_BSD) return 1; return 0;}
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 //===================================================================================//
 //============================ SCHEDULER FUNCTIONS ==================================//
@@ -30,11 +24,8 @@ static struct Env* (*sched_next[])(void) = {
 [SCH_RR]    fos_scheduler_RR,
 [SCH_MLFQ]  fos_scheduler_MLFQ,
 [SCH_BSD]   fos_scheduler_BSD,
-<<<<<<< HEAD
 [SCH_PRIRR]   fos_scheduler_PRIRR,
 
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 };
 
 //===================================
@@ -250,7 +241,6 @@ void sched_init_BSD(uint8 numOfLevels, uint8 quantum)
 	//=========================================
 }
 
-<<<<<<< HEAD
 //======================================
 // [6] Initialize PRIORITY RR Scheduler:
 //======================================
@@ -287,11 +277,6 @@ void sched_init_PRIRR(uint8 numOfPriorities, uint8 quantum, uint32 starvThresh)
 
 //=========================
 // [7] RR Scheduler:
-=======
-
-//=========================
-// [6] RR Scheduler:
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 //=========================
 struct Env* fos_scheduler_RR()
 {
@@ -325,11 +310,7 @@ struct Env* fos_scheduler_RR()
 }
 
 //=========================
-<<<<<<< HEAD
 // [8] MLFQ Scheduler:
-=======
-// [6] MLFQ Scheduler:
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 //=========================
 struct Env* fos_scheduler_MLFQ()
 {
@@ -348,11 +329,7 @@ struct Env* fos_scheduler_MLFQ()
 }
 
 //=========================
-<<<<<<< HEAD
 // [9] BSD Scheduler:
-=======
-// [7] BSD Scheduler:
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 //=========================
 struct Env* fos_scheduler_BSD()
 {
@@ -367,7 +344,6 @@ struct Env* fos_scheduler_BSD()
 	panic("Not implemented yet");
 
 }
-<<<<<<< HEAD
 //=============================
 // [10] PRIORITY RR Scheduler:
 //=============================
@@ -401,16 +377,10 @@ struct Env* fos_scheduler_PRIRR()
 
 //========================================
 // [11] Clock Interrupt Handler
-=======
-
-//========================================
-// [8] Clock Interrupt Handler
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 //	  (Automatically Called Every Quantum)
 //========================================
 void clock_interrupt_handler(struct Trapframe* tf)
 {
-<<<<<<< HEAD
 
 	if (isSchedMethodPRIRR())
 	{
@@ -436,14 +406,6 @@ void clock_interrupt_handler(struct Trapframe* tf)
 
 
 
-=======
-	if (isSchedMethodBSD())
-	{
-		//[PROJECT] BSD Scheduler - clock_interrupt_handler
-		//Your code is here
-		//Comment the following line
-		panic("Not implemented yet");
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	}
 
 
@@ -465,10 +427,6 @@ void clock_interrupt_handler(struct Trapframe* tf)
 		//fos_scheduler();
 		yield();
 	}
-<<<<<<< HEAD
-=======
-	/*****************************************/
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 //===================================================================

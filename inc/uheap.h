@@ -16,7 +16,6 @@ void* sget(int32 ownerEnvID, char *sharedVarName);
 void free(void* virtual_address);
 void sfree(void* virtual_address);
 void *realloc(void *virtual_address, uint32 new_size);
-<<<<<<< HEAD
 /*************************************************************************
 *************************my update MS2 user heap**************************
 **************************************************************************/
@@ -24,7 +23,4 @@ void heap_parameters();
 int page_allocation;
 int num_heap_Pages;
 int idx;
-=======
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 #endif

@@ -12,15 +12,12 @@
 #include <kern/disk/pagefile_manager.h>
 #include <kern/mem/memory_manager.h>
 
-<<<<<<< HEAD
 #include <kern/mem/kheap.h> // Correctly include kheap.h
 #include <inc/queue.h>      // For LIST_INSERT
 #include <kern/mem/working_set_manager.h> // For choose_victim_page
 
 
 
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 //2014 Test Free(): Set it to bypass the PAGE FAULT on an instruction with this length and continue executing the next one
 // 0 means don't bypass the PAGE FAULT
 uint8 bypassInstrLength = 0;
@@ -157,7 +154,6 @@ void fault_handler(struct Trapframe *tf)
 		if (userTrap)
 		{
 			/*============================================================================================*/
-<<<<<<< HEAD
 			//TODO: [PROJECT'24.MS2 - #08] [2] FAULT HANDLER I - Check for invalid pointers
 			//(e.g. pointing to unmarked user heap page, kernel or wrong access rights),
 			//your code is here
@@ -183,11 +179,6 @@ void fault_handler(struct Trapframe *tf)
 
 
 
-=======
-			//[PROJECT'24.MS2] [3] PAGE FAULT HANDLER - Check for invalid pointers
-			//(e.g. pointing to unmarked user heap page, kernel or wrong access rights),
-			//your code is here
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 			/*============================================================================================*/
 		}
@@ -249,7 +240,6 @@ void table_fault_handler(struct Env * curenv, uint32 fault_va)
 //=========================
 // [3] PAGE FAULT HANDLER:
 //=========================
-<<<<<<< HEAD
 //=========================
 // [3] PAGE FAULT HANDLER:
 //=========================
@@ -261,25 +251,10 @@ void page_fault_handler(struct Env * faulted_env, uint32 fault_va)
 #else
 	int iWS =faulted_env->page_last_WS_index;
 	uint32 wsSize = env_page_ws_get_size(faulted_env);
-=======
-void page_fault_handler(struct Env * faulted_env, uint32 fault_va)
-{
-	//[PROJECT'24] [3] PAGE FAULT HANDLER
-	// Write your code here, remove the panic and write your code
-	panic("page_fault_handler() is not implemented yet...!!");
-
-#if USE_KHEAP
-		struct WorkingSetElement *victimWSElement = NULL;
-		uint32 wsSize = LIST_SIZE(&(faulted_env->page_WS_list));
-#else
-		int iWS =faulted_env->page_last_WS_index;
-		uint32 wsSize = env_page_ws_get_size(faulted_env);
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 #endif
 
 	if(wsSize < (faulted_env->page_WS_max_size))
 	{
-<<<<<<< HEAD
 		struct FrameInfo* frame;
 		uint32 ans = allocate_frame(&frame);
 
@@ -461,25 +436,6 @@ void page_fault_handler(struct Env * faulted_env, uint32 fault_va)
 
 
 
-=======
-		//cprintf("PLACEMENT=========================WS Size = %d\n", wsSize );
-		//[PROJECT'24.MS2 - #15] [3] PAGE FAULT HANDLER - Placement
-		// Write your code here, remove the panic and write your code
-		panic("page_fault_handler().PLACEMENT is not implemented yet...!!");
-
-		//refer to the project presentation and documentation for details
-	}
-	else
-	{
-		//cprintf("REPLACEMENT=========================WS Size = %d\n", wsSize );
-		//refer to the project presentation and documentation for details
-		//[PROJECT'24.MS3] [1] PAGE FAULT HANDLER - Replacement
-		// Write your code here, remove the panic and write your code
-		panic("page_fault_handler() Replacement is not implemented yet...!!");
-	}
-}
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 void __page_fault_handler_with_buffering(struct Env * curenv, uint32 fault_va)
 {
 	//[PROJECT] PAGE FAULT HANDLER WITH BUFFERING

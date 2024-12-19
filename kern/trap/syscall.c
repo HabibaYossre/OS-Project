@@ -246,11 +246,7 @@ uint32 sys_calculate_required_frames(uint32 start_virtual_address, uint32 size)
 uint32 sys_calculate_free_frames()
 {
 	struct freeFramesCounters counters = calculate_available_frames();
-<<<<<<< HEAD
 	//cprintf("Free Frames = %d : Buffered = %d, Not Buffered = %d\n", counters.freeBuffered + counters.freeNotBuffered, counters.freeBuffered ,counters.freeNotBuffered);
-=======
-	//	cprintf("Free Frames = %d : Buffered = %d, Not Buffered = %d\n", counters.freeBuffered + counters.freeNotBuffered, counters.freeBuffered ,counters.freeNotBuffered);
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	return counters.freeBuffered + counters.freeNotBuffered;
 }
 uint32 sys_calculate_modified_frames()
@@ -305,7 +301,6 @@ int sys_pf_calculate_allocated_pages(void)
 /*******************************/
 void sys_free_user_mem(uint32 virtual_address, uint32 size)
 {
-<<<<<<< HEAD
 	if(virtual_address<USER_HEAP_START&&virtual_address+size>USER_HEAP_MAX)
 	{//sama:user_heap_max is a constant pointer not an integer
 		env_exit();
@@ -315,8 +310,6 @@ void sys_free_user_mem(uint32 virtual_address, uint32 size)
 		env_exit();
 	}
 
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	if(isBufferingEnabled())
 	{
 		__free_user_mem_with_buffering(cur_env, virtual_address, size);
@@ -331,18 +324,14 @@ void sys_free_user_mem(uint32 virtual_address, uint32 size)
 void sys_allocate_user_mem(uint32 virtual_address, uint32 size)
 {
 	//TODO: [PROJECT'24.MS1 - #03] [2] SYSTEM CALLS - Params Validation
-<<<<<<< HEAD
 if(virtual_address<USER_HEAP_START&&virtual_address+size>USER_HEAP_MAX){//sama:user_heap_max is a constant pointer not an integer
 	env_exit();
 }
 else if((uint32*)virtual_address==NULL){env_exit();}
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 	allocate_user_mem(cur_env, virtual_address, size);
 	return;
 }
-<<<<<<< HEAD
 /***********************************************************************************/
 int sys_get_id_by_virtual_address(void* virtual_address){
 	return get_id_by_virtual_address(virtual_address);
@@ -350,13 +339,6 @@ int sys_get_id_by_virtual_address(void* virtual_address){
 void sys_allocate_chunk(uint32 virtual_address, uint32 size, uint32 perms)
 {
 	//TODO: [PROJECT'24.MS1 - #03] [2] SYSTEM CALLS - Params Validation
-=======
-
-void sys_allocate_chunk(uint32 virtual_address, uint32 size, uint32 perms)
-{
-	//TODO: [PROJECT'24.MS1 - #03] [2] SYSTEM CALLS - Params Validation
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	allocate_chunk(cur_env->env_page_directory, virtual_address, size, perms);
 	return;
 }
@@ -377,20 +359,16 @@ void sys_set_uheap_strategy(uint32 heapStrategy)
 {
 	_UHeapPlacementStrategy = heapStrategy;
 }
-<<<<<<< HEAD
 /*******************************************syscall for schedular***************************************/
 void sys_env_set_priority(int32 envID, int priority){
     env_set_priority( envID,  priority);
 }
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 /*******************************/
 /* SEMAPHORES SYSTEM CALLS */
 /*******************************/
 //[PROJECT'24.MS3] ADD SUITABLE CODE HERE
 
-<<<<<<< HEAD
 void sys_init_queue(struct Env_Queue* queue)
 {
 	 init_queue(queue);
@@ -441,8 +419,6 @@ void sys_signal_semaphore(struct Env_Queue *queue, uint32 *lock)
     	sched_insert_ready(first_process);
         release_spinlock(&ProcessQueues.qlock);
 }
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 /*******************************/
 /* SHARED MEMORY SYSTEM CALLS */
@@ -454,19 +430,13 @@ int sys_createSharedObject(char* shareName, uint32 size, uint8 isWritable, void*
 
 int sys_getSizeOfSharedObject(int32 ownerID, char* shareName)
 {
-<<<<<<< HEAD
 	 //cprintf("in get size\n");
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	return getSizeOfSharedObject(ownerID, shareName);
 }
 
 int sys_getSharedObject(int32 ownerID, char* shareName, void* virtual_address)
 {
-<<<<<<< HEAD
 	 //cprintf("in system\n");
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	return getSharedObject(ownerID, shareName, virtual_address);
 }
 
@@ -475,10 +445,7 @@ int sys_freeSharedObject(int32 sharedObjectID, void *startVA)
 	return freeSharedObject(sharedObjectID, startVA);
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 /*********************************/
 /* USER ENVIRONMENT SYSTEM CALLS */
 /*********************************/
@@ -579,10 +546,6 @@ void sys_run_env(int32 envId)
 /*******************************/
 /* ETC... SYSTEM CALLS */
 /*******************************/
-<<<<<<< HEAD
-=======
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 struct uint64 sys_get_virtual_time()
 {
 	struct uint64 t = get_virtual_time();
@@ -598,10 +561,6 @@ void sys_bypassPageFault(uint8 instrLength)
 	bypassInstrLength = instrLength;
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 /**************************************************************************/
 /************************* SYSTEM CALLS HANDLER ***************************/
 /**************************************************************************/
@@ -617,7 +576,6 @@ uint32 syscall(uint32 syscallno, uint32 a1, uint32 a2, uint32 a3, uint32 a4, uin
 	switch(syscallno)
 	{
 	//TODO: [PROJECT'24.MS1 - #02] [2] SYSTEM CALLS - Add suitable code here
-<<<<<<< HEAD
 	case SYS_sbrk:
 		return (uint32)sys_sbrk((int)a1);
 		break;
@@ -640,9 +598,6 @@ uint32 syscall(uint32 syscallno, uint32 a1, uint32 a2, uint32 a3, uint32 a4, uin
 	    sys_env_set_priority((int32)a1, (int)a2);
 	    return 0;
 	    break;
-=======
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	//======================================================================
 	case SYS_cputs:
 		sys_cputs((const char*)a1,a2,(uint8)a3);
@@ -730,11 +685,7 @@ uint32 syscall(uint32 syscallno, uint32 a1, uint32 a2, uint32 a3, uint32 a4, uin
 	case SYS_create_env:
 		return sys_create_env((char*)a1, (uint32)a2, (uint32)a3, (uint32)a4);
 		break;
-<<<<<<< HEAD
 	//****************************************************************************
-=======
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	case SYS_run_env:
 		sys_run_env((int32)a1);
 		return 0;
@@ -814,7 +765,6 @@ uint32 syscall(uint32 syscallno, uint32 a1, uint32 a2, uint32 a3, uint32 a4, uin
 	case NSYSCALLS:
 		return 	-E_INVAL;
 		break;
-<<<<<<< HEAD
 
 	case SYS_init_queue:
 		 sys_init_queue((struct Env_Queue*) a1);
@@ -838,9 +788,4 @@ uint32 syscall(uint32 syscallno, uint32 a1, uint32 a2, uint32 a3, uint32 a4, uin
 	//panic("syscall not implemented");
 	return -E_INVAL;
 
-=======
-	}
-	//panic("syscall not implemented");
-	return -E_INVAL;
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }

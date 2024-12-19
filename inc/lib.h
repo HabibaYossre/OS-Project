@@ -83,7 +83,6 @@ void 	sys_set_uheap_strategy(uint32 heapStrategy);
 //Page File
 int 	sys_pf_calculate_allocated_pages(void);
 
-<<<<<<< HEAD
 //********Semaphores**************************
 void sys_init_queue(struct Env_Queue* queue);
 void sys_enqueue(struct Env_Queue* queue);
@@ -92,10 +91,6 @@ void sys_signal_semaphore(struct Env_Queue *queue, uint32 *lock);
 
 //***********schedular************************
 void sys_env_set_priority(int32 envID, int priority);
-=======
-//Semaphores
-
->>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 //Sharing
 //2017
