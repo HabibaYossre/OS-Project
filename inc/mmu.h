@@ -1,6 +1,10 @@
 #ifndef FOS_INC_MMU_H
 #define FOS_INC_MMU_H
+<<<<<<< HEAD
 // not our fault
+=======
+
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 /*
  * This file contains definitions for the x86 memory management unit (MMU),
  * including paging- and segmentation-related data structures and constants,
@@ -71,9 +75,12 @@
 // The PERM_AVAILABLE bits aren't used by the kernel or interpreted by the
 // hardware, so user processes are allowed to set them arbitrarily.
 #define PERM_AVAILABLE	0xE00	// Available for software use
+<<<<<<< HEAD
 // made by us
 #define PERM_MARKED 0x800 // the mark premission
 #define PERM_SECONDLIST
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 // Only flags in PTE_USER may be used in system calls.
 #define PTE_USER	(PTE_AVAIL | PTE_P | PTE_W | PTE_U)

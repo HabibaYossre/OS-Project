@@ -20,6 +20,7 @@ _main(void)
 	cprintf("MAKE SURE to have a FRESH RUN for this test\n(i.e. don't run any program/test before it)\n");
 	cprintf("************************************************\n\n\n");
 
+<<<<<<< HEAD
 	int eval = 0;
 	bool is_correct = 1;
 
@@ -27,12 +28,19 @@ _main(void)
 
 	uint32 *x, *y, *z ;
 	cprintf("STEP A: checking creation of shared object that is already exists... [35%] \n\n");
+=======
+	uint32 pagealloc_start = USER_HEAP_START + DYN_ALLOC_MAX_SIZE + PAGE_SIZE; //UHS + 32MB + 4KB
+
+	uint32 *x, *y, *z ;
+	cprintf("STEP A: checking creation of shared object that is already exists... \n\n");
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		int ret ;
 		//int ret = sys_createSharedObject("x", PAGE_SIZE, 1, (void*)&x);
 		x = smalloc("x", PAGE_SIZE, 1);
 		int freeFrames = sys_calculate_free_frames() ;
 		x = smalloc("x", PAGE_SIZE, 1);
+<<<<<<< HEAD
 		if (x != NULL) {is_correct = 0; cprintf("Trying to create an already exists object and corresponding error is not returned!!");}
 		if ((freeFrames - sys_calculate_free_frames()) !=  0) {is_correct = 0; cprintf("Wrong allocation: make sure that you don't allocate any memory if the shared object exists");}
 	}
@@ -40,10 +48,18 @@ _main(void)
 	is_correct = 1;
 
 	cprintf("STEP B: checking getting shared object that is NOT exists... [35%]\n\n");
+=======
+		if (x != NULL) panic("Trying to create an already exists object and corresponding error is not returned!!");
+		if ((freeFrames - sys_calculate_free_frames()) !=  0) panic("Wrong allocation: make sure that you don't allocate any memory if the shared object exists");
+	}
+
+	cprintf("STEP B: checking getting shared object that is NOT exists... \n\n");
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		int ret ;
 		x = sget(myEnv->env_id, "xx");
 		int freeFrames = sys_calculate_free_frames() ;
+<<<<<<< HEAD
 		if (x != NULL) {is_correct = 0; cprintf("Trying to get a NON existing object and corresponding error is not returned!!");}
 		if ((freeFrames - sys_calculate_free_frames()) !=  0) {is_correct = 0; cprintf("Wrong get: make sure that you don't allocate any memory if the shared object not exists");}
 	}
@@ -51,10 +67,18 @@ _main(void)
 	is_correct = 1;
 
 	cprintf("STEP C: checking the creation of shared object that exceeds the SHARED area limit... [30%]\n\n");
+=======
+		if (x != NULL) panic("Trying to get a NON existing object and corresponding error is not returned!!");
+		if ((freeFrames - sys_calculate_free_frames()) !=  0) panic("Wrong get: make sure that you don't allocate any memory if the shared object not exists");
+	}
+
+	cprintf("STEP C: checking the creation of shared object that exceeds the SHARED area limit... \n\n");
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		int freeFrames = sys_calculate_free_frames() ;
 		uint32 size = USER_HEAP_MAX - pagealloc_start - PAGE_SIZE + 1;
 		y = smalloc("y", size, 1);
+<<<<<<< HEAD
 		if (y != NULL) {is_correct = 0; cprintf("Trying to create a shared object that exceed the SHARED area limit and the corresponding error is not returned!!");}
 		if ((freeFrames - sys_calculate_free_frames()) !=  0) {is_correct = 0; cprintf("Wrong allocation: make sure that you don't allocate any memory if the shared object exceed the SHARED area limit");}
 	}
@@ -62,5 +86,12 @@ _main(void)
 	is_correct = 1;
 
 	cprintf("\n%~Test of Shared Variables [Create & Get: Special Cases] completed. Eval = %d%%\n\n", eval);
+=======
+		if (y != NULL) panic("Trying to create a shared object that exceed the SHARED area limit and the corresponding error is not returned!!");
+		if ((freeFrames - sys_calculate_free_frames()) !=  0) panic("Wrong allocation: make sure that you don't allocate any memory if the shared object exceed the SHARED area limit");
+	}
+
+	cprintf("\n%~Congratulations!! Test of Shared Variables [Create & Get: Special Cases] completed successfully!!\n\n\n");
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 }

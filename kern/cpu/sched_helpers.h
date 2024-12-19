@@ -7,6 +7,10 @@
 #endif
 
 #include <inc/environment_definitions.h>
+<<<<<<< HEAD
+=======
+
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 /*2023*/
 /********* for BSD Priority Scheduler *************/
 int env_get_nice(struct Env* e) ;
@@ -15,6 +19,7 @@ int env_get_recent_cpu(struct Env* e) ;
 int get_load_average() ;
 /********* for BSD Priority Scheduler *************/
 
+<<<<<<< HEAD
 /*2024*/
 void env_set_priority(int envID, int priority);
 void sched_set_starv_thresh(uint32 starvThresh);
@@ -24,6 +29,9 @@ uint32 StarvThresh;
 
 void sched_insert_ready0(struct Env* env);
 void sched_insert_ready(struct Env* env);
+=======
+void sched_insert_ready0(struct Env* env);
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 void sched_remove_ready(struct Env* env);
 void sched_insert_new(struct Env* env);
 void sched_remove_new(struct Env* env);

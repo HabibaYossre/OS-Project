@@ -28,7 +28,11 @@ uint32 _PageRepAlgoType;
 #define PG_REP_NchanceCLOCK 0x6
 #define PG_REP_DYNAMIC_LOCAL 0x7
 
+<<<<<<< HEAD
 /*2021*/ int page_WS_max_sweeps;
+=======
+/*2021*/ uint32 page_WS_max_sweeps;
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 extern uint8 bypassInstrLength ;
 

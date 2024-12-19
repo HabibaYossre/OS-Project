@@ -85,8 +85,11 @@ void initialize_disk_page_file()
 		//disk_frames_info[i].references = 0;
 		LIST_INSERT_HEAD(&DiskFrameLists.disk_free_frame_list, &disk_frames_info[i]);
 	}
+<<<<<<< HEAD
 
 	init_spinlock(&DiskFrameLists.dfllock, "Disk FrameList Lock");
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 //
@@ -285,8 +288,13 @@ int pf_update_env_page(struct Env* ptr_env, uint32 virtual_address, struct Frame
 	if(ptr_disk_page_table == NULL || (ptr_disk_page_table != NULL && ptr_disk_page_table[PTX(virtual_address)]== 0))
 	{
 
+<<<<<<< HEAD
 		if ((virtual_address >= USER_HEAP_START && virtual_address < USER_HEAP_MAX) ||
 				(virtual_address >= USTACKBOTTOM && virtual_address < USTACKTOP))
+=======
+		uint32 VA = (uint32)virtual_address ;
+		if ((VA >= USER_HEAP_START && VA < USER_HEAP_MAX) || (VA >= USTACKBOTTOM && VA < USTACKTOP))
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		{
 			/*2023*/ //EL7 :)
 			/* REMOVE THIS CONDITION SINCE THE GIVEN virtual_address MIGHT HAVE PRESENT = 0
@@ -318,7 +326,11 @@ int pf_update_env_page(struct Env* ptr_env, uint32 virtual_address, struct Frame
 			//			//Else, just add a new empty page to the page file, then update it with the given modified_page_frame_info in the below code
 			//			else
 			{
+<<<<<<< HEAD
 				ret = pf_add_empty_env_page(ptr_env, virtual_address, 0);
+=======
+				ret = pf_add_empty_env_page(ptr_env, VA, 0);
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 				if (ret == E_NO_PAGE_FILE_SPACE)
 				{
@@ -342,6 +354,7 @@ int pf_update_env_page(struct Env* ptr_env, uint32 virtual_address, struct Frame
 
 #if USE_KHEAP
 	{
+<<<<<<< HEAD
 		//FIX (obsolete): we should implement a better solution for this, but for now
 		//		we are using an unused VA in the invalid area of kernel at 0xef800000 (the current USER_LIMIT)
 		//		to do temp initialization of a frame.
@@ -357,6 +370,18 @@ int pf_update_env_page(struct Env* ptr_env, uint32 virtual_address, struct Frame
 		// TEMPORARILY increase the references to prevent unmap_frame from removing the frame
 		modified_page_frame_info->references += 1;
 		unmap_frame(ptr_env->env_page_directory, (uint32)PGFLTEMP);
+=======
+		//FIX: we should implement a better solution for this, but for now
+		//		we are using an unused VA in the invalid area of kernel at 0xef800000 (the current USER_LIMIT)
+		//		to do temp initialization of a frame.
+		map_frame(ptr_env->env_page_directory, modified_page_frame_info, USER_LIMIT, 0);
+
+		ret = write_disk_page(dfn, (void*)ROUNDDOWN(USER_LIMIT, PAGE_SIZE));
+
+		// TEMPORARILY increase the references to prevent unmap_frame from removing the frame
+		modified_page_frame_info->references += 1;
+		unmap_frame(ptr_env->env_page_directory, USER_LIMIT);
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		// Return it to its original status
 		modified_page_frame_info->references -= 1;
 

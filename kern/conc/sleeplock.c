@@ -34,6 +34,7 @@ void acquire_sleeplock(struct sleeplock *lk)
 {
 	//TODO: [PROJECT'24.MS1 - #13] [4] LOCKS - acquire_sleeplock
 	//COMMENT THE FOLLOWING LINE BEFORE START CODING
+<<<<<<< HEAD
 	//panic("acquire_sleeplock is not implemented yet");
 	//Your Code is Here...
     acquire_spinlock(&(lk->lk));
@@ -42,12 +43,18 @@ void acquire_sleeplock(struct sleeplock *lk)
     }
     lk->locked=1;
     release_spinlock(&(lk->lk));
+=======
+	panic("acquire_sleeplock is not implemented yet");
+	//Your Code is Here...
+
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 void release_sleeplock(struct sleeplock *lk)
 {
 	//TODO: [PROJECT'24.MS1 - #14] [4] LOCKS - release_sleeplock
 	//COMMENT THE FOLLOWING LINE BEFORE START CODING
+<<<<<<< HEAD
 	//panic("release_sleeplock is not implemented yet");
 	//Your Code is Here...
 	acquire_spinlock(&(lk->lk));
@@ -58,3 +65,14 @@ void release_sleeplock(struct sleeplock *lk)
 	release_spinlock(&(lk->lk));
 }
 
+=======
+	panic("release_sleeplock is not implemented yet");
+	//Your Code is Here...
+
+}
+
+
+
+
+
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c

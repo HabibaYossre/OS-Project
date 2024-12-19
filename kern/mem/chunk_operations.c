@@ -122,6 +122,7 @@ uint32 calculate_required_frames(uint32* page_directory, uint32 sva, uint32 size
 //=====================================
 void* sys_sbrk(int numOfPages)
 {
+<<<<<<< HEAD
 
     //TODO: [PROJECT'24.MS2 - #11] [3] USER HEAP - sys_sbrk
 
@@ -141,6 +142,30 @@ void* sys_sbrk(int numOfPages)
 	}
 
 	return (void*)retsbr;
+=======
+	/* numOfPages > 0: move the segment break of the current user program to increase the size of its heap
+	 * 				by the given number of pages. You should allocate NOTHING,
+	 * 				and returns the address of the previous break (i.e. the beginning of newly mapped memory).
+	 * numOfPages = 0: just return the current position of the segment break
+	 *
+	 * NOTES:
+	 * 	1) As in real OS, allocate pages lazily. While sbrk moves the segment break, pages are not allocated
+	 * 		until the user program actually tries to access data in its heap (i.e. will be allocated via the fault handler).
+	 * 	2) Allocating additional pages for a process’ heap will fail if, for example, the free frames are exhausted
+	 * 		or the break exceed the limit of the dynamic allocator. If sys_sbrk fails, the net effect should
+	 * 		be that sys_sbrk returns (void*) -1 and that the segment break and the process heap are unaffected.
+	 * 		You might have to undo any operations you have done so far in this case.
+	 */
+
+	struct Env* env = get_cpu_proc(); //the current running Environment to adjust its break limit
+
+	/*====================================*/
+	/*Remove this line before start coding*/
+	return (void*)-1 ;
+	/*====================================*/
+
+	//[PROJECT'24.MS2] Implement this function
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 }
 
@@ -149,6 +174,7 @@ void* sys_sbrk(int numOfPages)
 //=====================================
 void allocate_user_mem(struct Env* e, uint32 virtual_address, uint32 size)
 {
+<<<<<<< HEAD
      //TODO: [PROJECT'24.MS2 - #13] [3] USER HEAP [KERNEL SIDE] - allocate_user_mem()
      // Write your code here, remove the panic and write your code
 	 unsigned int numPages = ROUNDUP(size, PAGE_SIZE) / PAGE_SIZE;
@@ -185,6 +211,35 @@ void free_user_mem(struct Env* e, uint32 virtual_address, uint32 size) {
 
     }
 }
+=======
+	/*====================================*/
+	/*Remove this line before start coding*/
+	inctst();
+	return;
+	/*====================================*/
+
+	//[PROJECT'24.MS2] [USER HEAP - KERNEL SIDE] allocate_user_mem
+	// Write your code here, remove the panic and write your code
+	panic("allocate_user_mem() is not implemented yet...!!");
+}
+
+//=====================================
+// 2) FREE USER MEMORY:
+//=====================================
+void free_user_mem(struct Env* e, uint32 virtual_address, uint32 size)
+{
+	/*====================================*/
+	/*Remove this line before start coding*/
+	inctst();
+	return;
+	/*====================================*/
+
+	//[PROJECT'24.MS2] [USER HEAP - KERNEL SIDE] free_user_mem
+	// Write your code here, remove the panic and write your code
+	panic("free_user_mem() is not implemented yet...!!");
+}
+
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 //=====================================
 // 2) FREE USER MEMORY (BUFFERING):
 //=====================================

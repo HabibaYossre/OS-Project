@@ -15,7 +15,11 @@
  */
 
 /*2016*/
+<<<<<<< HEAD
 #define USE_KHEAP 1
+=======
+#define USE_KHEAP 0
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 // Global descriptor numbers
 #define GD_KT     0x08     // kernel text
@@ -155,10 +159,14 @@
 //2016
 #define KERNEL_HEAP_START 0xF6000000
 #define KERNEL_HEAP_MAX 0xFFFFF000
+<<<<<<< HEAD
 //#define PGFLTEMP(UTEMP - PAGE_SIZE)
 
 //KHEAP pages number
 #define PGFLTEMP ((UTEMP) - (PAGE_SIZE))
+=======
+//KHEAP pages number
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 #define NUM_OF_KHEAP_PAGES ((KERNEL_HEAP_MAX-KERNEL_HEAP_START)/PAGE_SIZE)
 
 #define USER_HEAP_START 0x80000000
@@ -175,6 +183,10 @@
 #define USER_DYN_BLKS_ARRAY 0 //(ROUNDDOWN(USER_HEAP_START - (sizeof(struct MemBlock) * NUM_OF_UHEAP_PAGES), PAGE_SIZE) - PAGE_SIZE)
 
 #ifndef __ASSEMBLER__
+<<<<<<< HEAD
+=======
+
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 /*
  * The page directory entry corresponding to the virtual address range
  * [VPT, VPT + PTSIZE) points to the page directory itself.  Thus, the page
@@ -205,6 +217,7 @@ LIST_HEAD(FrameInfo_List, FrameInfo);
 typedef LIST_ENTRY(FrameInfo) Page_LIST_entry_t;
 
 struct FrameInfo {
+<<<<<<< HEAD
     /* free list link */
     Page_LIST_entry_t prev_next_info;
 
@@ -218,6 +231,20 @@ struct FrameInfo {
     uint32 bufferedVA;
     unsigned char isBuffered;
     struct WorkingSetElement  * Eman;
+=======
+	/* free list link */
+	Page_LIST_entry_t prev_next_info;
+
+	// references is the count of pointers (usually in page table entries)
+	// to this page, for frames allocated using allocate_frame.
+	// frames allocated at boot time using memory_manager.c's
+	// boot_allocate_space do not have valid reference count fields.
+	uint16 references;
+
+	struct Env *proc;
+	uint32 bufferedVA;
+	unsigned char isBuffered;
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 };
 
 #endif /* !__ASSEMBLER__ */

@@ -141,6 +141,7 @@ void sched_insert_ready0(struct Env* env)
 	}
 }
 
+<<<<<<< HEAD
 //============================================================
 // [2] Insert the given Env in the priority-based Ready Queue:
 //============================================================
@@ -159,6 +160,8 @@ void sched_insert_ready(struct Env* env)
 	}
 }
 
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 //=================================================
 // [3] Remove the given Env from the Ready Queue(s):
 //=================================================
@@ -283,7 +286,11 @@ void sched_run_env(uint32 envId)
 		if(ptr_env->env_id == envId)
 		{
 			sched_remove_new(ptr_env);
+<<<<<<< HEAD
 			sched_insert_ready(ptr_env);
+=======
+			sched_insert_ready0(ptr_env);
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 			/*2015*///if scheduler not run yet, then invoke it!
 			if (mycpu()->scheduler_status == SCH_STOPPED)
@@ -540,7 +547,11 @@ void sched_run_all()
 	for (int i = 0; i < q_size; ++i)
 	{
 		ptr_env = dequeue(&ProcessQueues.env_new_queue);
+<<<<<<< HEAD
 		sched_insert_ready(ptr_env);
+=======
+		sched_insert_ready0(ptr_env);
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	}
 
 	release_spinlock(&(ProcessQueues.qlock)); 	//CS on Qs
@@ -696,6 +707,7 @@ int get_load_average()
 }
 /********* for BSD Priority Scheduler *************/
 //==================================================================================//
+<<<<<<< HEAD
 
 /*2024*/
 /********* for Priority RR Scheduler *************/
@@ -720,3 +732,5 @@ void sched_set_starv_thresh(uint32 starvThresh)
 	//Your code is here
 	StarvThresh = starvThresh;
 }
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c

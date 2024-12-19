@@ -34,7 +34,10 @@ void _main(void)
 	int freeFrames ;
 	int usedDiskPages;
 	//[1] Allocate set of blocks
+<<<<<<< HEAD
 	cprintf("\n%~[1] Allocate spaces of different sizes in PAGE ALLOCATOR\n");
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		//Allocate 1 MB
 		freeFrames = sys_calculate_free_frames() ;
@@ -102,7 +105,10 @@ void _main(void)
 	}
 
 	//[2] Free some to create holes
+<<<<<<< HEAD
 	cprintf("\n%~[2] Free some to create holes [10%]\n");
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		//1 MB Hole
 		freeFrames = sys_calculate_free_frames() ;
@@ -134,7 +140,10 @@ void _main(void)
 	}
 	is_correct = 1;
 	//[3] Allocate again [test first fit]
+<<<<<<< HEAD
 	cprintf("\n%~[3] Allocate again [test first fit] [50%]\n");
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		//Allocate 512 KB - should be placed in 1st hole
 		freeFrames = sys_calculate_free_frames() ;
@@ -203,7 +212,10 @@ void _main(void)
 
 	is_correct = 1;
 	//[4] Free contiguous allocations
+<<<<<<< HEAD
 	cprintf("\n%~[4] Free contiguous allocations [10%]\n");
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		//1 MB Hole appended to previous 256 KB hole
 		freeFrames = sys_calculate_free_frames() ;
@@ -235,7 +247,10 @@ void _main(void)
 	}
 	is_correct = 1;
 	//[5] Allocate again [test first fit]
+<<<<<<< HEAD
 	cprintf("\n%~[5] Allocate again [test first fit in coalesced area] [15%]\n");
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		//[FIRST FIT Case]
 		//Allocate 4 MB + 256 KB - should be placed in the contiguous hole (256 KB + 4 MB)
@@ -252,7 +267,10 @@ void _main(void)
 	}
 	is_correct = 1;
 	//[6] Attempt to allocate large segment with no suitable fragment to fit on
+<<<<<<< HEAD
 	cprintf("\n%~[6] Attempt to allocate large segment with no suitable fragment to fit on [15%]\n");
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		//Large Allocation
 		//int freeFrames = sys_calculate_free_frames() ;
@@ -266,8 +284,13 @@ void _main(void)
 		eval += 15;
 	}
 	is_correct = 1;
+<<<<<<< HEAD
 	cprintf("%~\ntest FIRST FIT (1) [PAGE ALLOCATOR] completed. Eval = %d\n\n", eval);
 	//cprintf("[AUTO_GR@DING_PARTIAL]%d\n", eval);
+=======
+	//cprintf("Congratulations!! test FIRST FIT (1) [PAGE ALLOCATOR] completed successfully.\n\n");
+	cprintf("[AUTO_GR@DING_PARTIAL]%d\n", eval);
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 	return;
 #endif

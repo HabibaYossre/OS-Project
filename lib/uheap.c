@@ -16,13 +16,17 @@ void* sbrk(int increment)
 //=================================
 // [2] ALLOCATE SPACE IN USER HEAP:
 //=================================
+<<<<<<< HEAD
 int user_heap_pages[NUM_OF_UHEAP_PAGES];
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 void* malloc(uint32 size)
 {
 	//==============================================================
 	//DON'T CHANGE THIS CODE========================================
 	if (size == 0) return NULL ;
 	//==============================================================
+<<<<<<< HEAD
 	//TODO: [PROJECT'24.MS2 - #12] [3] USER HEAP [USER SIDE] - malloc()
     if (size <= DYN_ALLOC_MAX_BLOCK_SIZE) {
         return alloc_block_FF(size);
@@ -56,12 +60,21 @@ void* malloc(uint32 size)
     }
 
     return NULL;
+=======
+	//[PROJECT'24.MS2] [2] USER HEAP - malloc() [User Side]
+	// Write your code here, remove the panic and write your code
+	panic("malloc() is not implemented yet...!!");
+	return NULL;
+	//Use sys_isUHeapPlacementStrategyFIRSTFIT() and	sys_isUHeapPlacementStrategyBESTFIT()
+	//to check the current strategy
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 }
 
 //=================================
 // [3] FREE SPACE FROM USER HEAP:
 //=================================
+<<<<<<< HEAD
 void free(void* virtual_address) {
     uint32 VirtualAddress = (uint32)virtual_address;
 
@@ -122,11 +135,35 @@ void* smalloc(char *sharedVarName, uint32 size, uint8 isWritable) {
     }
 
     return NULL; // No suitable block found
+=======
+void free(void* virtual_address)
+{
+	//[PROJECT'24.MS2] [2] USER HEAP - free() [User Side]
+	// Write your code here, remove the panic and write your code
+	panic("free() is not implemented yet...!!");
+}
+
+
+//=================================
+// [4] ALLOCATE SHARED VARIABLE:
+//=================================
+void* smalloc(char *sharedVarName, uint32 size, uint8 isWritable)
+{
+	//==============================================================
+	//DON'T CHANGE THIS CODE========================================
+	if (size == 0) return NULL ;
+	//==============================================================
+	//[PROJECT'24.MS2] [2] USER HEAP - smalloc() [User Side]
+	// Write your code here, remove the panic and write your code
+	panic("smalloc() is not implemented yet...!!");
+	return NULL;
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 //========================================
 // [5] SHARE ON ALLOCATED SHARED VARIABLE:
 //========================================
+<<<<<<< HEAD
 void* sget(int32 ownerEnvID, char* sharedVarName) {
     // Get the size of the shared object
     int size = sys_getSizeOfSharedObject(ownerEnvID, sharedVarName);
@@ -169,6 +206,17 @@ void* sget(int32 ownerEnvID, char* sharedVarName) {
     return NULL;
 }
 
+=======
+void* sget(int32 ownerEnvID, char *sharedVarName)
+{
+	//[PROJECT'24.MS2] [2] USER HEAP - sget() [User Side]
+	// Write your code here, remove the panic and write your code
+	panic("sget() is not implemented yet...!!");
+	return NULL;
+}
+
+
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 //==================================================================================//
 //============================== BONUS FUNCTIONS ===================================//
 //==================================================================================//
@@ -186,6 +234,7 @@ void* sget(int32 ownerEnvID, char* sharedVarName) {
 
 void sfree(void* virtual_address)
 {
+<<<<<<< HEAD
 	//TODO: [PROJECT'24.MS2 - BONUS#4] [4] SHARED MEMORY [USER SIDE] - sfree()
 	//uint32 Virtual_address = ROUNDDOWN(virtual_address,PAGE_SIZE);
 	int32 mask = 0x7FFFFFFF; // Mask for clearing the MSB
@@ -193,6 +242,11 @@ void sfree(void* virtual_address)
 	sys_freeSharedObject(ID,virtual_address);
 	uint32 start = ((uint32) virtual_address - USER_HEAP_START) / PAGE_SIZE;
 	user_heap_pages[start]=0;
+=======
+	//[PROJECT'24.MS2 BONUS] [2] USER HEAP - sfree() [User Side]
+	// Write your code here, remove the panic and write your code
+	panic("sfree() is not implemented yet...!!");
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 }
 
 

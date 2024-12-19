@@ -16,6 +16,7 @@
 
 inline struct WorkingSetElement* env_page_ws_list_create_element(struct Env* e, uint32 virtual_address)
 {
+<<<<<<< HEAD
 	   //TODO: [PROJECT'24.MS2 - #07] [2] FAULT HANDLER I - Create a new WS element
 
 	    struct WorkingSetElement* new_element = (struct WorkingSetElement*)kmalloc(sizeof(struct WorkingSetElement));
@@ -71,6 +72,15 @@ inline void Shrouk_env_page_ws_invalidate_fast(struct Env* e, uint32 virtual_add
     }
 }
 /***************************************************************************************/
+=======
+	//[PROJECT'24.MS2] Create a new WS element
+	//If failed to create a new one, kernel should panic()!
+	//COMMENT THE FOLLOWING LINE BEFORE START CODING
+	panic("create_share is not implemented yet");
+	//Your Code is Here...
+
+}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 inline void env_page_ws_invalidate(struct Env* e, uint32 virtual_address)
 {
 	if (isPageReplacmentAlgorithmLRU(PG_REP_LRU_LISTS_APPROX))

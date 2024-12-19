@@ -28,6 +28,10 @@ FUNCTIONS:	to_physical_address, get_frame_info, tlb_invalidate
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 void tlb_invalidate(uint32 *ptr_page_directory, void *virtual_address)
 {
 	// Flush the entry only if we're modifying the current address space.
@@ -390,8 +394,11 @@ int map_frame(uint32 *ptr_page_directory, struct FrameInfo *ptr_frame_info, uint
 			unmap_frame(ptr_page_directory , virtual_address);
 	}
 	ptr_frame_info->references++;
+<<<<<<< HEAD
 	//page_number
 	    ptr_frame_info->page_number=virtual_address;
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 	/*********************************************************************************/
 	/*NEW'23 el7:)

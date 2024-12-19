@@ -23,13 +23,17 @@ _main(void)
 #endif
 	/*=================================================*/
 
+<<<<<<< HEAD
 	int eval = 0;
 	bool is_correct = 1;
 
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	uint32 *x, *y, *z ;
 	uint32 expected ;
 	uint32 pagealloc_start = USER_HEAP_START + DYN_ALLOC_MAX_SIZE + PAGE_SIZE; //UHS + 32MB + 4KB
 
+<<<<<<< HEAD
 	cprintf("STEP A: checking the creation of shared variables... [60%]\n");
 	{
 		is_correct = 1;
@@ -63,6 +67,35 @@ _main(void)
 
 	is_correct = 1;
 	cprintf("STEP B: checking reading & writing... [40%]\n");
+=======
+	cprintf("STEP A: checking the creation of shared variables... \n");
+	{
+		int freeFrames = sys_calculate_free_frames() ;
+		x = smalloc("x", PAGE_SIZE, 1);
+		if (x != (uint32*)pagealloc_start) panic("Returned address is not correct. check the setting of it and/or the updating of the shared_mem_free_address");
+		expected = 1+1 ; /*1page +1table*/
+		int diff = (freeFrames - sys_calculate_free_frames());
+		if (diff < expected || diff > expected +1+1 /*extra 1 page & 1 table for sbrk (at max)*/) panic("Wrong allocation (current=%d, expected=%d): make sure that you allocate the required space in the user environment and add its frames to frames_storage", freeFrames - sys_calculate_free_frames(), expected);
+
+		freeFrames = sys_calculate_free_frames() ;
+		z = smalloc("z", PAGE_SIZE + 4, 1);
+		if (z != (uint32*)(pagealloc_start + 1 * PAGE_SIZE)) panic("Returned address is not correct. check the setting of it and/or the updating of the shared_mem_free_address");
+		expected = 2 ; /*2pages*/
+		diff = (freeFrames - sys_calculate_free_frames());
+		if (diff < expected || diff > expected +1+1 /*extra 1 page & 1 table for sbrk (at max)*/) panic("Wrong allocation (current=%d, expected=%d): make sure that you allocate the required space in the user environment and add its frames to frames_storage", freeFrames - sys_calculate_free_frames(), expected);
+
+		freeFrames = sys_calculate_free_frames() ;
+		y = smalloc("y", 4, 1);
+		if (y != (uint32*)(pagealloc_start + 3 * PAGE_SIZE)) panic("Returned address is not correct. check the setting of it and/or the updating of the shared_mem_free_address");
+		expected = 1 ; /*1page*/
+		diff = (freeFrames - sys_calculate_free_frames());
+		if (diff < expected || diff > expected +1+1 /*extra 1 page & 1 table for sbrk (at max)*/) panic("Wrong allocation (current=%d, expected=%d): make sure that you allocate the required space in the user environment and add its frames to frames_storage", freeFrames - sys_calculate_free_frames(), expected);
+	}
+	cprintf("Step A is completed successfully!!\n\n\n");
+
+
+	cprintf("STEP B: checking reading & writing... \n");
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		int i=0;
 		for(;i<PAGE_SIZE/4;i++)
@@ -77,6 +110,7 @@ _main(void)
 			z[i] = -1;
 		}
 
+<<<<<<< HEAD
 		if( x[0] !=  -1)  					{is_correct = 0; cprintf("Reading/Writing of shared object is failed");}
 		if( x[PAGE_SIZE/4 - 1] !=  -1)  	{is_correct = 0; cprintf("Reading/Writing of shared object is failed");}
 
@@ -89,6 +123,19 @@ _main(void)
 	if (is_correct)
 		eval += 40 ;
 	cprintf("\n%~Test of Shared Variables [Create] [1] completed. Eval = %d%%\n\n", eval);
+=======
+		if( x[0] !=  -1)  					panic("Reading/Writing of shared object is failed");
+		if( x[PAGE_SIZE/4 - 1] !=  -1)  	panic("Reading/Writing of shared object is failed");
+
+		if( y[0] !=  -1)  					panic("Reading/Writing of shared object is failed");
+		if( y[PAGE_SIZE/4 - 1] !=  -1)  	panic("Reading/Writing of shared object is failed");
+
+		if( z[0] !=  -1)  					panic("Reading/Writing of shared object is failed");
+		if( z[2*PAGE_SIZE/4 - 1] !=  -1)  	panic("Reading/Writing of shared object is failed");
+	}
+
+	cprintf("\n%~Congratulations!! Test of Shared Variables [Create] [1] completed successfully!!\n\n\n");
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 	return;
 }

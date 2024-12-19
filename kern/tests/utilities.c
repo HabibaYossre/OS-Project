@@ -4,7 +4,10 @@
 #include <inc/mmu.h>
 #include <inc/x86.h>
 #include <inc/assert.h>
+<<<<<<< HEAD
 #include <inc/queue.h>
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 #include <kern/proc/user_environment.h>
 #include "../trap/syscall.h"
@@ -144,12 +147,15 @@ void fixedPt2Str(fixed_point_t f, int num_dec_digits, char* output)
 
 }
 
+<<<<<<< HEAD
 int __firstTimeSleep = 1;
 struct Channel __tstchan__ ;
 struct spinlock __tstchan_lk__;
 int __firstTimeSleepLock = 1;
 struct sleeplock __tstslplk__;
 
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 void sys_utilities(char* utilityName, int value)
 {
 	if (strncmp(utilityName, "__BSDSetNice@", strlen("__BSDSetNice@")) == 0)
@@ -231,6 +237,7 @@ void sys_utilities(char* utilityName, int value)
 			*numOfInstances = 1; //to indicate the success of test
 		}
 	}
+<<<<<<< HEAD
 	else if (strcmp(utilityName, "__Sleep__") == 0)
 	{
 		if (__firstTimeSleep)
@@ -289,6 +296,8 @@ void sys_utilities(char* utilityName, int value)
 		uint32* lockOwnerID = (uint32*) value ;
 		*lockOwnerID =__tstslplk__.pid;
 	}
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	if ((int)value < 0)
 	{
 		if (strcmp(utilityName, "__ReplStrat__") == 0)

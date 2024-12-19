@@ -9,10 +9,14 @@ struct MyStruct
 	short b;
 	int c;
 };
+<<<<<<< HEAD
 int inRange(int val, int min, int max)
 {
 	return (val >= min && val <= max) ? 1 : 0;
 }
+=======
+
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 void _main(void)
 {
 	/*********************** NOTE ****************************
@@ -29,6 +33,11 @@ void _main(void)
 		if (LIST_SIZE(&(myEnv->page_WS_list)) >= myEnv->page_WS_max_size)
 			panic("Please increase the WS size");
 	}
+<<<<<<< HEAD
+=======
+	//	/*Dummy malloc to enforce the UHEAP initializations*/
+	//	malloc(0);
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	/*=================================================*/
 #else
 	panic("not handled!");
@@ -52,6 +61,7 @@ void _main(void)
 	int *intArr;
 	struct MyStruct *structArr ;
 	int lastIndexOfByte, lastIndexOfByte2, lastIndexOfShort, lastIndexOfShort2, lastIndexOfInt, lastIndexOfStruct;
+<<<<<<< HEAD
 	bool found;
 	int start_freeFrames = sys_calculate_free_frames() ;
 	int freeFrames, usedDiskPages, chk;
@@ -60,17 +70,32 @@ void _main(void)
 	void* ptr_allocations[20] = {0};
 	{
 		//cprintf("3\n");
+=======
+
+	int start_freeFrames = sys_calculate_free_frames() ;
+	int freeFrames, usedDiskPages, chk;
+	int expectedNumOfFrames, actualNumOfFrames;
+	void* ptr_allocations[20] = {0};
+	//ALLOCATE ALL
+	{
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		//2 MB
 		{
 			freeFrames = sys_calculate_free_frames() ;
 			usedDiskPages = sys_pf_calculate_allocated_pages() ;
 			ptr_allocations[0] = malloc(2*Mega-kilo);
+<<<<<<< HEAD
 			if ((uint32) ptr_allocations[0] != (pagealloc_start)) {is_correct = 0; cprintf("1 Wrong start address for the allocated space... \n");}
 			expectedNumOfFrames = 1 /*table*/ ;
 			actualNumOfFrames = freeFrames - sys_calculate_free_frames();
 			if (!inRange(actualNumOfFrames, expectedNumOfFrames, expectedNumOfFrames + 2 /*Block Alloc: max of 1 page & 1 table*/))
 			{is_correct = 0; cprintf("1 Wrong allocation: unexpected number of pages that are allocated in memory! Expected = [%d, %d], Actual = %d\n", expectedNumOfFrames, expectedNumOfFrames+2, actualNumOfFrames);}
 			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("1 Extra or less pages are allocated in PageFile\n");}
+=======
+			if ((uint32) ptr_allocations[0] != (pagealloc_start)) { is_correct = 0; cprintf("Wrong start address for the allocated space... \n");}
+			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("Extra or less pages are allocated in PageFile\n");}
+
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 			freeFrames = sys_calculate_free_frames() ;
 			lastIndexOfByte = (2*Mega-kilo)/sizeof(char) - 1;
@@ -79,6 +104,7 @@ void _main(void)
 			byteArr[lastIndexOfByte] = maxByte ;
 			expectedNumOfFrames = 2 /*+1 table already created in malloc due to marking the allocated pages*/ ;
 			actualNumOfFrames = (freeFrames - sys_calculate_free_frames()) ;
+<<<<<<< HEAD
 			if (!inRange(actualNumOfFrames, expectedNumOfFrames, expectedNumOfFrames + 2 /*Block Alloc: max of 1 page & 1 table*/))
 			{ is_correct = 0; cprintf("1 Wrong fault handler: pages are not loaded successfully into memory/WS. Expected diff in frames at least = %d, actual = %d\n", expectedNumOfFrames, actualNumOfFrames);}
 
@@ -86,23 +112,39 @@ void _main(void)
 			found = sys_check_WS_list(expectedVAs, 2, 0, 2);
 			if (found != 1) { is_correct = 0; cprintf("1 malloc: page is not added to WS\n");}
 		}
+=======
+			if (actualNumOfFrames < expectedNumOfFrames)
+			{ is_correct = 0; cprintf("Wrong fault handler: pages are not loaded successfully into memory/WS. Expected diff in frames at least = %d, actual = %d\n", expectedNumOfFrames, actualNumOfFrames);}
+
+			uint32 expectedVAs[2] = { ROUNDDOWN((uint32)(&(byteArr[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(byteArr[lastIndexOfByte])), PAGE_SIZE)} ;
+			chk = sys_check_WS_list(expectedVAs, 2, 0, 2);
+			if (chk != 1) { is_correct = 0; cprintf("malloc: page is not added to WS\n");}
+		}
+
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		//2 MB
 		{
 			freeFrames = sys_calculate_free_frames() ;
 			usedDiskPages = sys_pf_calculate_allocated_pages() ;
 			ptr_allocations[1] = malloc(2*Mega-kilo);
+<<<<<<< HEAD
 			if ((uint32) ptr_allocations[1] != (pagealloc_start + 2*Mega)) { is_correct = 0; cprintf("2 Wrong start address for the allocated space... \n");}
 			expectedNumOfFrames = 0 /*table exists*/ ;
 			actualNumOfFrames = freeFrames - sys_calculate_free_frames();
 			if (!inRange(actualNumOfFrames, expectedNumOfFrames, expectedNumOfFrames + 2 /*Block Alloc: max of 1 page & 1 table*/))
 			{is_correct = 0; cprintf("2 Wrong allocation: unexpected number of pages that are allocated in memory! Expected = [%d, %d], Actual = %d\n", expectedNumOfFrames, expectedNumOfFrames+2, actualNumOfFrames);}
 			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("2 Extra or less pages are allocated in PageFile\n");}
+=======
+			if ((uint32) ptr_allocations[1] != (pagealloc_start + 2*Mega)) { is_correct = 0; cprintf("Wrong start address for the allocated space... \n");}
+			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("Extra or less pages are allocated in PageFile\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 			freeFrames = sys_calculate_free_frames() ;
 			shortArr = (short *) ptr_allocations[1];
 			lastIndexOfShort = (2*Mega-kilo)/sizeof(short) - 1;
 			shortArr[0] = minShort;
 			shortArr[lastIndexOfShort] = maxShort;
+<<<<<<< HEAD
 			expectedNumOfFrames = 2 ;
 			actualNumOfFrames = (freeFrames - sys_calculate_free_frames()) ;
 			if (!inRange(actualNumOfFrames, expectedNumOfFrames, expectedNumOfFrames + 2 /*Block Alloc: max of 1 page & 1 table*/))
@@ -122,6 +164,25 @@ void _main(void)
 			if (!inRange(actualNumOfFrames, expectedNumOfFrames, expectedNumOfFrames + 2 /*Block Alloc: max of 1 page & 1 table*/))
 			{is_correct = 0; cprintf("3 Wrong allocation: unexpected number of pages that are allocated in memory! Expected = [%d, %d], Actual = %d\n", expectedNumOfFrames, expectedNumOfFrames+2, actualNumOfFrames);}
 			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("3 Extra or less pages are allocated in PageFile\n");}
+=======
+			expectedNumOfFrames = 2 /*+1 table already created in malloc due to marking the allocated pages*/;
+			actualNumOfFrames = (freeFrames - sys_calculate_free_frames()) ;
+			if (actualNumOfFrames < expectedNumOfFrames)
+			{ is_correct = 0; cprintf("Wrong fault handler: pages are not loaded successfully into memory/WS. Expected diff in frames at least = %d, actual = %d\n", expectedNumOfFrames, actualNumOfFrames);}
+			uint32 expectedVAs[2] = { ROUNDDOWN((uint32)(&(shortArr[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(shortArr[lastIndexOfShort])), PAGE_SIZE)} ;
+			chk = sys_check_WS_list(expectedVAs, 2, 0, 2);
+			if (chk != 1) { is_correct = 0; cprintf("malloc: page is not added to WS\n");}
+		}
+		//cprintf("5\n");
+
+		//3 KB
+		{
+			freeFrames = sys_calculate_free_frames() ;
+			usedDiskPages = sys_pf_calculate_allocated_pages() ;
+			ptr_allocations[2] = malloc(3*kilo);
+			if ((uint32) ptr_allocations[2] != (pagealloc_start + 4*Mega)) { is_correct = 0; cprintf("Wrong start address for the allocated space... \n");}
+			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("Extra or less pages are allocated in PageFile\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 			freeFrames = sys_calculate_free_frames() ;
 			intArr = (int *) ptr_allocations[2];
@@ -130,31 +191,54 @@ void _main(void)
 			intArr[lastIndexOfInt] = maxInt;
 			expectedNumOfFrames = 1 ;
 			actualNumOfFrames = (freeFrames - sys_calculate_free_frames()) ;
+<<<<<<< HEAD
 			if (!inRange(actualNumOfFrames, expectedNumOfFrames, expectedNumOfFrames + 2 /*Block Alloc: max of 1 page & 1 table*/))
 			{ is_correct = 0; cprintf("3 Wrong fault handler: pages are not loaded successfully into memory/WS. Expected diff in frames at least = %d, actual = %d\n", expectedNumOfFrames, actualNumOfFrames);}
 			uint32 expectedVAs[2] = { ROUNDDOWN((uint32)(&(intArr[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(intArr[lastIndexOfInt])), PAGE_SIZE)} ;
 			found = sys_check_WS_list(expectedVAs, 2, 0, 2);
 			if (found != 1) { is_correct = 0; cprintf("3 malloc: page is not added to WS\n");}
+=======
+			if (actualNumOfFrames < expectedNumOfFrames)
+			{ is_correct = 0; cprintf("Wrong fault handler: pages are not loaded successfully into memory/WS. Expected diff in frames at least = %d, actual = %d\n", expectedNumOfFrames, actualNumOfFrames);}
+			uint32 expectedVAs[2] = { ROUNDDOWN((uint32)(&(intArr[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(intArr[lastIndexOfInt])), PAGE_SIZE)} ;
+			chk = sys_check_WS_list(expectedVAs, 2, 0, 2);
+			if (chk != 1) { is_correct = 0; cprintf("malloc: page is not added to WS\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		}
 
 		//3 KB
 		{
+<<<<<<< HEAD
 			usedDiskPages = sys_pf_calculate_allocated_pages() ;
 			ptr_allocations[3] = malloc(3*kilo);
 			if ((uint32) ptr_allocations[3] != (pagealloc_start + 4*Mega + 4*kilo)) { is_correct = 0; cprintf("4 Wrong start address for the allocated space... \n");}
 			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("4 Extra or less pages are allocated in PageFile\n");}
 		}
+=======
+			freeFrames = sys_calculate_free_frames() ;
+			usedDiskPages = sys_pf_calculate_allocated_pages() ;
+			ptr_allocations[3] = malloc(3*kilo);
+			if ((uint32) ptr_allocations[3] != (pagealloc_start + 4*Mega + 4*kilo)) { is_correct = 0; cprintf("Wrong start address for the allocated space... \n");}
+			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("Extra or less pages are allocated in PageFile\n");}
+		}
+
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		//7 KB
 		{
 			freeFrames = sys_calculate_free_frames() ;
 			usedDiskPages = sys_pf_calculate_allocated_pages() ;
 			ptr_allocations[4] = malloc(7*kilo);
+<<<<<<< HEAD
 			if ((uint32) ptr_allocations[4] != (pagealloc_start + 4*Mega + 8*kilo)) { is_correct = 0; cprintf("5 Wrong start address for the allocated space... \n");}
 			expectedNumOfFrames = 0 /*no table*/ ;
 			actualNumOfFrames = freeFrames - sys_calculate_free_frames();
 			if (!inRange(actualNumOfFrames, expectedNumOfFrames, expectedNumOfFrames + 2 /*Block Alloc: max of 1 page & 1 table*/))
 			{is_correct = 0; cprintf("5 Wrong allocation: unexpected number of pages that are allocated in memory! Expected = [%d, %d], Actual = %d\n", expectedNumOfFrames, expectedNumOfFrames+2, actualNumOfFrames);}
 			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("5 Extra or less pages are allocated in PageFile\n");}
+=======
+			if ((uint32) ptr_allocations[4] != (pagealloc_start + 4*Mega + 8*kilo)) { is_correct = 0; cprintf("Wrong start address for the allocated space... \n");}
+			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("Extra or less pages are allocated in PageFile\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 			freeFrames = sys_calculate_free_frames() ;
 			structArr = (struct MyStruct *) ptr_allocations[4];
@@ -163,17 +247,28 @@ void _main(void)
 			structArr[lastIndexOfStruct].a = maxByte; structArr[lastIndexOfStruct].b = maxShort; structArr[lastIndexOfStruct].c = maxInt;
 			expectedNumOfFrames = 2 ;
 			actualNumOfFrames = (freeFrames - sys_calculate_free_frames()) ;
+<<<<<<< HEAD
 			if (!inRange(actualNumOfFrames, expectedNumOfFrames, expectedNumOfFrames + 2 /*Block Alloc: max of 1 page & 1 table*/))
 			{ is_correct = 0; cprintf("5 Wrong fault handler: pages are not loaded successfully into memory/WS. Expected diff in frames at least = %d, actual = %d\n", expectedNumOfFrames, actualNumOfFrames);}
 			uint32 expectedVAs[2] = { ROUNDDOWN((uint32)(&(structArr[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(structArr[lastIndexOfStruct])), PAGE_SIZE)} ;
 			found = sys_check_WS_list(expectedVAs, 2, 0, 2);
 			if (found != 1) { is_correct = 0; cprintf("5 malloc: page is not added to WS\n");}
 		}
+=======
+			if (actualNumOfFrames < expectedNumOfFrames)
+			{ is_correct = 0; cprintf("Wrong fault handler: pages are not loaded successfully into memory/WS. Expected diff in frames at least = %d, actual = %d\n", expectedNumOfFrames, actualNumOfFrames);}
+			uint32 expectedVAs[2] = { ROUNDDOWN((uint32)(&(structArr[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(structArr[lastIndexOfStruct])), PAGE_SIZE)} ;
+			chk = sys_check_WS_list(expectedVAs, 2, 0, 2);
+			if (chk != 1) { is_correct = 0; cprintf("malloc: page is not added to WS\n");}
+		}
+
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		//3 MB
 		{
 			freeFrames = sys_calculate_free_frames() ;
 			usedDiskPages = sys_pf_calculate_allocated_pages() ;
 			ptr_allocations[5] = malloc(3*Mega-kilo);
+<<<<<<< HEAD
 			if ((uint32) ptr_allocations[5] != (pagealloc_start + 4*Mega + 16*kilo)) { is_correct = 0; cprintf("6 Wrong start address for the allocated space... \n");}
 			expectedNumOfFrames = 0 /*no table*/ ;
 			actualNumOfFrames = freeFrames - sys_calculate_free_frames();
@@ -192,6 +287,18 @@ void _main(void)
 			if (!inRange(actualNumOfFrames, expectedNumOfFrames, expectedNumOfFrames + 2 /*Block Alloc: max of 1 page & 1 table*/))
 			{is_correct = 0; cprintf("7 Wrong allocation: unexpected number of pages that are allocated in memory! Expected = [%d, %d], Actual = %d\n", expectedNumOfFrames, expectedNumOfFrames+2, actualNumOfFrames);}
 			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("7 Extra or less pages are allocated in PageFile\n");}
+=======
+			if ((uint32) ptr_allocations[5] != (pagealloc_start + 4*Mega + 16*kilo)) { is_correct = 0; cprintf("Wrong start address for the allocated space... \n");}
+			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("Extra or less pages are allocated in PageFile\n");}
+		}
+
+		//6 MB
+		{
+			usedDiskPages = sys_pf_calculate_allocated_pages() ;
+			ptr_allocations[6] = malloc(6*Mega-kilo);
+			if ((uint32) ptr_allocations[6] != (pagealloc_start + 7*Mega + 16*kilo)) { is_correct = 0; cprintf("Wrong start address for the allocated space... \n");}
+			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("Extra or less pages are allocated in PageFile\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 			freeFrames = sys_calculate_free_frames() ;
 			lastIndexOfByte2 = (6*Mega-kilo)/sizeof(char) - 1;
@@ -199,6 +306,7 @@ void _main(void)
 			byteArr2[0] = minByte ;
 			byteArr2[lastIndexOfByte2 / 2] = maxByte / 2;
 			byteArr2[lastIndexOfByte2] = maxByte ;
+<<<<<<< HEAD
 			expectedNumOfFrames = 3 ;
 			actualNumOfFrames = (freeFrames - sys_calculate_free_frames()) ;
 			if (!inRange(actualNumOfFrames, expectedNumOfFrames, expectedNumOfFrames + 2 /*Block Alloc: max of 1 page & 1 table*/))
@@ -218,6 +326,23 @@ void _main(void)
 			if (!inRange(actualNumOfFrames, expectedNumOfFrames, expectedNumOfFrames + 2 /*Block Alloc: max of 1 page & 1 table*/))
 			{is_correct = 0; cprintf("8 Wrong allocation: unexpected number of pages that are allocated in memory! Expected = [%d, %d], Actual = %d\n", expectedNumOfFrames, expectedNumOfFrames+2, actualNumOfFrames);}
 			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("8 Extra or less pages are allocated in PageFile\n");}
+=======
+			expectedNumOfFrames = 3 /*+2 tables already created in malloc due to marking the allocated pages*/ ;
+			actualNumOfFrames = (freeFrames - sys_calculate_free_frames()) ;
+			if (actualNumOfFrames < expectedNumOfFrames)
+			{ is_correct = 0; cprintf("Wrong fault handler: pages are not loaded successfully into memory/WS. Expected diff in frames at least = %d, actual = %d\n", expectedNumOfFrames, actualNumOfFrames);}
+			uint32 expectedVAs[3] = { ROUNDDOWN((uint32)(&(byteArr2[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(byteArr2[lastIndexOfByte2/2])), PAGE_SIZE), ROUNDDOWN((uint32)(&(byteArr2[lastIndexOfByte2])), PAGE_SIZE)} ;
+			chk = sys_check_WS_list(expectedVAs, 3, 0, 2);
+			if (chk != 1) { is_correct = 0; cprintf("malloc: page is not added to WS\n");}
+		}
+
+		//14 KB
+		{
+			usedDiskPages = sys_pf_calculate_allocated_pages() ;
+			ptr_allocations[7] = malloc(14*kilo);
+			if ((uint32) ptr_allocations[7] != (pagealloc_start + 13*Mega + 16*kilo)) { is_correct = 0; cprintf("Wrong start address for the allocated space... \n");}
+			if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0) { is_correct = 0; cprintf("Extra or less pages are allocated in PageFile\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 			freeFrames = sys_calculate_free_frames() ;
 			shortArr2 = (short *) ptr_allocations[7];
@@ -227,11 +352,19 @@ void _main(void)
 			shortArr2[lastIndexOfShort2] = maxShort;
 			expectedNumOfFrames = 3 ;
 			actualNumOfFrames = (freeFrames - sys_calculate_free_frames()) ;
+<<<<<<< HEAD
 			if (!inRange(actualNumOfFrames, expectedNumOfFrames, expectedNumOfFrames + 2 /*Block Alloc: max of 1 page & 1 table*/))
 			{ is_correct = 0; cprintf("8 Wrong fault handler: pages are not loaded successfully into memory/WS. Expected diff in frames at least = %d, actual = %d\n", expectedNumOfFrames, actualNumOfFrames);}
 			uint32 expectedVAs[3] = { ROUNDDOWN((uint32)(&(shortArr2[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(shortArr2[lastIndexOfShort2/2])), PAGE_SIZE), ROUNDDOWN((uint32)(&(shortArr2[lastIndexOfShort2])), PAGE_SIZE)} ;
 			found = sys_check_WS_list(expectedVAs, 3, 0, 2);
 			if (found != 1) { is_correct = 0; cprintf("8 malloc: page is not added to WS\n");}
+=======
+			if (actualNumOfFrames < expectedNumOfFrames)
+			{ is_correct = 0; cprintf("Wrong fault handler: pages are not loaded successfully into memory/WS. Expected diff in frames at least = %d, actual = %d\n", expectedNumOfFrames, actualNumOfFrames);}
+			uint32 expectedVAs[3] = { ROUNDDOWN((uint32)(&(shortArr2[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(shortArr2[lastIndexOfShort2/2])), PAGE_SIZE), ROUNDDOWN((uint32)(&(shortArr2[lastIndexOfShort2])), PAGE_SIZE)} ;
+			chk = sys_check_WS_list(expectedVAs, 3, 0, 2);
+			if (chk != 1) { is_correct = 0; cprintf("malloc: page is not added to WS\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		}
 	}
 	uint32 pagealloc_end = pagealloc_start + 13*Mega + 32*kilo ;
@@ -239,7 +372,10 @@ void _main(void)
 
 	is_correct = 1;
 	//FREE ALL
+<<<<<<< HEAD
 	cprintf("\n%~[2] Free all the allocated spaces from PAGE ALLOCATOR \[70%]\n");
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		//Free 1st 2 MB
 		{
@@ -247,11 +383,19 @@ void _main(void)
 			usedDiskPages = sys_pf_calculate_allocated_pages() ;
 			free(ptr_allocations[0]);
 
+<<<<<<< HEAD
 			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0) { is_correct = 0; cprintf("9 Wrong free: Extra or less pages are removed from PageFile\n");}
 			if ((sys_calculate_free_frames() - freeFrames) != 2 ) { is_correct = 0; cprintf("9 Wrong free: WS pages in memory and/or page tables are not freed correctly\n");}
 			uint32 notExpectedVAs[2] = { ROUNDDOWN((uint32)(&(byteArr[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(byteArr[lastIndexOfByte])), PAGE_SIZE)} ;
 			chk = sys_check_WS_list(notExpectedVAs, 2, 0, 3);
 			if (chk != 1) { is_correct = 0; cprintf("9 free: page is not removed from WS\n");}
+=======
+			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0) { is_correct = 0; cprintf("Wrong free: Extra or less pages are removed from PageFile\n");}
+			if ((sys_calculate_free_frames() - freeFrames) != 2 ) { is_correct = 0; cprintf("Wrong free: WS pages in memory and/or page tables are not freed correctly\n");}
+			uint32 notExpectedVAs[2] = { ROUNDDOWN((uint32)(&(byteArr[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(byteArr[lastIndexOfByte])), PAGE_SIZE)} ;
+			chk = sys_check_WS_list(notExpectedVAs, 2, 0, 3);
+			if (chk != 1) { is_correct = 0; cprintf("free: page is not removed from WS\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		}
 		if (is_correct)
 		{
@@ -264,6 +408,7 @@ void _main(void)
 			freeFrames = sys_calculate_free_frames() ;
 			usedDiskPages = sys_pf_calculate_allocated_pages() ;
 			free(ptr_allocations[1]);
+<<<<<<< HEAD
 			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0)
 			{ is_correct = 0; cprintf("10 Wrong free: Extra or less pages are removed from PageFile\n");}
 			if ((sys_calculate_free_frames() - freeFrames) != 2 /*we don't remove free tables anymore*/)
@@ -271,6 +416,14 @@ void _main(void)
 			uint32 notExpectedVAs[2] = { ROUNDDOWN((uint32)(&(shortArr[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(shortArr[lastIndexOfShort])), PAGE_SIZE)} ;
 			chk = sys_check_WS_list(notExpectedVAs, 2, 0, 3);
 			if (chk != 1) { is_correct = 0; cprintf("10 free: page is not removed from WS\n");}
+=======
+			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0) { is_correct = 0; cprintf("Wrong free: Extra or less pages are removed from PageFile\n");}
+			cprintf("sys_calculate_free_frames() - freeFrames = %d\n", sys_calculate_free_frames() - freeFrames);
+			if ((sys_calculate_free_frames() - freeFrames) != 2 /*+ 1*/) { is_correct = 0; cprintf("Wrong free: WS pages in memory and/or page tables are not freed correctly\n");}
+			uint32 notExpectedVAs[2] = { ROUNDDOWN((uint32)(&(shortArr[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(shortArr[lastIndexOfShort])), PAGE_SIZE)} ;
+			chk = sys_check_WS_list(notExpectedVAs, 2, 0, 3);
+			if (chk != 1) { is_correct = 0; cprintf("free: page is not removed from WS\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		}
 		if (is_correct)
 		{
@@ -283,6 +436,7 @@ void _main(void)
 			freeFrames = sys_calculate_free_frames() ;
 			usedDiskPages = sys_pf_calculate_allocated_pages() ;
 			free(ptr_allocations[6]);
+<<<<<<< HEAD
 			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0)
 			{ is_correct = 0; cprintf("11 Wrong free: Extra or less pages are removed from PageFile\n");}
 			if ((sys_calculate_free_frames() - freeFrames) != 3 /*+ 1*/)
@@ -290,6 +444,13 @@ void _main(void)
 			uint32 notExpectedVAs[3] = { ROUNDDOWN((uint32)(&(byteArr2[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(byteArr2[lastIndexOfByte2/2])), PAGE_SIZE), ROUNDDOWN((uint32)(&(byteArr2[lastIndexOfByte2])), PAGE_SIZE)} ;
 			chk = sys_check_WS_list(notExpectedVAs, 3, 0, 3);
 			if (chk != 1) { is_correct = 0; cprintf("11 free: page is not removed from WS\n");}
+=======
+			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0) { is_correct = 0; cprintf("Wrong free: Extra or less pages are removed from PageFile\n");}
+			if ((sys_calculate_free_frames() - freeFrames) != 3 /*+ 1*/) { is_correct = 0; cprintf("Wrong free: WS pages in memory and/or page tables are not freed correctly\n");}
+			uint32 notExpectedVAs[3] = { ROUNDDOWN((uint32)(&(byteArr2[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(byteArr2[lastIndexOfByte2/2])), PAGE_SIZE), ROUNDDOWN((uint32)(&(byteArr2[lastIndexOfByte2])), PAGE_SIZE)} ;
+			chk = sys_check_WS_list(notExpectedVAs, 3, 0, 3);
+			if (chk != 1) { is_correct = 0; cprintf("free: page is not removed from WS\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		}
 		if (is_correct)
 		{
@@ -302,6 +463,7 @@ void _main(void)
 			freeFrames = sys_calculate_free_frames() ;
 			usedDiskPages = sys_pf_calculate_allocated_pages() ;
 			free(ptr_allocations[4]);
+<<<<<<< HEAD
 			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0)
 			{ is_correct = 0; cprintf("12 Wrong free: Extra or less pages are removed from PageFile\n");}
 			if ((sys_calculate_free_frames() - freeFrames) != 2)
@@ -309,6 +471,13 @@ void _main(void)
 			uint32 notExpectedVAs[2] = { ROUNDDOWN((uint32)(&(structArr[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(structArr[lastIndexOfStruct])), PAGE_SIZE)} ;
 			chk = sys_check_WS_list(notExpectedVAs, 2, 0, 3);
 			if (chk != 1) { is_correct = 0; cprintf("12 free: page is not removed from WS\n");}
+=======
+			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0) { is_correct = 0; cprintf("Wrong free: Extra or less pages are removed from PageFile\n");}
+			if ((sys_calculate_free_frames() - freeFrames) != 2) { is_correct = 0; cprintf("Wrong free: WS pages in memory and/or page tables are not freed correctly\n");}
+			uint32 notExpectedVAs[2] = { ROUNDDOWN((uint32)(&(structArr[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(structArr[lastIndexOfStruct])), PAGE_SIZE)} ;
+			chk = sys_check_WS_list(notExpectedVAs, 2, 0, 3);
+			if (chk != 1) { is_correct = 0; cprintf("free: page is not removed from WS\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		}
 		if (is_correct)
 		{
@@ -321,10 +490,15 @@ void _main(void)
 			freeFrames = sys_calculate_free_frames() ;
 			usedDiskPages = sys_pf_calculate_allocated_pages() ;
 			free(ptr_allocations[5]);
+<<<<<<< HEAD
 			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0)
 			{ is_correct = 0; cprintf("13 Wrong free: Extra or less pages are removed from PageFile\n");}
 			if ((sys_calculate_free_frames() - freeFrames) != 0)
 			{ is_correct = 0; cprintf("13 Wrong free: unexpected number of free frames after calling free\n");}
+=======
+			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0) { is_correct = 0; cprintf("Wrong free: Extra or less pages are removed from PageFile\n");}
+			if ((sys_calculate_free_frames() - freeFrames) != 0) { is_correct = 0; cprintf("Wrong free: WS pages in memory and/or page tables are not freed correctly\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		}
 		if (is_correct)
 		{
@@ -337,6 +511,7 @@ void _main(void)
 			freeFrames = sys_calculate_free_frames() ;
 			usedDiskPages = sys_pf_calculate_allocated_pages() ;
 			free(ptr_allocations[2]);
+<<<<<<< HEAD
 			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0)
 			{ is_correct = 0; cprintf("14 Wrong free: Extra or less pages are removed from PageFile\n");}
 			if ((sys_calculate_free_frames() - freeFrames) != 1 /*+ 1*/)
@@ -344,6 +519,13 @@ void _main(void)
 			uint32 notExpectedVAs[2] = { ROUNDDOWN((uint32)(&(intArr[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(intArr[lastIndexOfInt])), PAGE_SIZE)} ;
 			chk = sys_check_WS_list(notExpectedVAs, 2, 0, 3);
 			if (chk != 1) { is_correct = 0; cprintf("14 free: page is not removed from WS\n");}
+=======
+			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0) { is_correct = 0; cprintf("Wrong free: Extra or less pages are removed from PageFile\n");}
+			if ((sys_calculate_free_frames() - freeFrames) != 1 /*+ 1*/) { is_correct = 0; cprintf("Wrong free: WS pages in memory and/or page tables are not freed correctly\n");}
+			uint32 notExpectedVAs[2] = { ROUNDDOWN((uint32)(&(intArr[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(intArr[lastIndexOfInt])), PAGE_SIZE)} ;
+			chk = sys_check_WS_list(notExpectedVAs, 2, 0, 3);
+			if (chk != 1) { is_correct = 0; cprintf("free: page is not removed from WS\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		}
 		if (is_correct)
 		{
@@ -356,10 +538,15 @@ void _main(void)
 			freeFrames = sys_calculate_free_frames() ;
 			usedDiskPages = sys_pf_calculate_allocated_pages() ;
 			free(ptr_allocations[3]);
+<<<<<<< HEAD
 			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0)
 			{ is_correct = 0; cprintf("15 Wrong free: Extra or less pages are removed from PageFile\n");}
 			if ((sys_calculate_free_frames() - freeFrames) != 0)
 			{ is_correct = 0; cprintf("15 Wrong free: WS pages in memory and/or page tables are not freed correctly\n");}
+=======
+			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0) { is_correct = 0; cprintf("Wrong free: Extra or less pages are removed from PageFile\n");}
+			if ((sys_calculate_free_frames() - freeFrames) != 0) { is_correct = 0; cprintf("Wrong free: WS pages in memory and/or page tables are not freed correctly\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		}
 		if (is_correct)
 		{
@@ -372,6 +559,7 @@ void _main(void)
 			freeFrames = sys_calculate_free_frames() ;
 			usedDiskPages = sys_pf_calculate_allocated_pages() ;
 			free(ptr_allocations[7]);
+<<<<<<< HEAD
 			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0)
 			{ is_correct = 0; cprintf("16 Wrong free: Extra or less pages are removed from PageFile\n");}
 			if ((sys_calculate_free_frames() - freeFrames) != 3 /*+ 1*/)
@@ -379,6 +567,13 @@ void _main(void)
 			uint32 notExpectedVAs[3] = { ROUNDDOWN((uint32)(&(shortArr2[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(shortArr2[lastIndexOfShort2/2])), PAGE_SIZE), ROUNDDOWN((uint32)(&(shortArr2[lastIndexOfShort2])), PAGE_SIZE)} ;
 			chk = sys_check_WS_list(notExpectedVAs, 3, 0, 3);
 			if (chk != 1) { is_correct = 0; cprintf("16 free: page is not removed from WS\n");}
+=======
+			if ((usedDiskPages - sys_pf_calculate_allocated_pages()) != 0) { is_correct = 0; cprintf("Wrong free: Extra or less pages are removed from PageFile\n");}
+			if ((sys_calculate_free_frames() - freeFrames) != 3 /*+ 1*/) { is_correct = 0; cprintf("Wrong free: WS pages in memory and/or page tables are not freed correctly\n");}
+			uint32 notExpectedVAs[3] = { ROUNDDOWN((uint32)(&(shortArr2[0])), PAGE_SIZE), ROUNDDOWN((uint32)(&(shortArr2[lastIndexOfShort2/2])), PAGE_SIZE), ROUNDDOWN((uint32)(&(shortArr2[lastIndexOfShort2])), PAGE_SIZE)} ;
+			chk = sys_check_WS_list(notExpectedVAs, 3, 0, 3);
+			if (chk != 1) { is_correct = 0; cprintf("free: page is not removed from WS\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		}
 		if (is_correct)
 		{
@@ -391,12 +586,16 @@ void _main(void)
 	is_correct = 1;
 
 	//Test accessing a freed area (processes should be killed by the validation of the fault handler)
+<<<<<<< HEAD
 	cprintf("\n%~[3] Test accessing a freed area (processes should be killed by the validation of the fault handler) [30%]\n");
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		rsttst();
 		int ID1 = sys_create_env("tf1_slave1", (myEnv->page_WS_max_size), (myEnv->SecondListSize),(myEnv->percentage_of_WS_pages_to_be_removed));
 		sys_run_env(ID1);
 
+<<<<<<< HEAD
 		//wait until a slave finishes the allocation & freeing operations
 		while (gettst() != 1) ;
 
@@ -414,12 +613,27 @@ void _main(void)
 
 		if (gettst() > 3)
 		{ is_correct = 0; cprintf("\n17 Free: access to freed space is done while it's NOT expected to be!! (processes should be killed by the validation of the fault handler)\n");}
+=======
+		int ID2 = sys_create_env("tf1_slave2", (myEnv->page_WS_max_size), (myEnv->SecondListSize),(myEnv->percentage_of_WS_pages_to_be_removed));
+		sys_run_env(ID2);
+
+		env_sleep(10000);
+
+		if (gettst() != 2)
+		{ is_correct = 0; cprintf("\nFree: successful access to freed space!! (processes should be killed by the validation of the fault handler)\n");}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	}
 	if (is_correct)
 	{
 		eval += 30;
 	}
+<<<<<<< HEAD
 	cprintf("%~\ntest free [1] [PAGE ALLOCATOR] completed. Eval = %d\n\n", eval);
+=======
+	is_correct = 1;
+	//cprintf("Congratulations!! test free [1] [PAGE ALLOCATOR] completed successfully.\n");
+	cprintf("[AUTO_GR@DING_PARTIAL]%d\n", eval);
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 	return;
 }

@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+/* *********************************************************** */
+/* MAKE SURE PAGE_WS_MAX_SIZE = 1000 */
+/* *********************************************************** */
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 #include <inc/lib.h>
 
 
@@ -84,9 +90,12 @@ void _main(void)
 	}
 	inctst(); //to ensure that it reached here
 
+<<<<<<< HEAD
 	//wait until receiving a signal from the master
 	while (gettst() != 3) ;
 
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	//Test accessing a freed area but NOT ACCESSED Before (processes should be killed by the validation of the fault handler)
 	{
 		byteArr[8*kilo] = minByte ;

@@ -96,9 +96,12 @@ int command_sch_test(int number_of_arguments, char **arguments);
 //2023
 int command_tst(int number_of_arguments, char **arguments);
 
+<<<<<<< HEAD
 //2024
 int command_set_priority(int number_of_arguments, char **arguments);
 int command_set_starve_thresh(int number_of_arguments, char **arguments);
 /////////////////////////////m3//////////////////
 int command_schedPRIRR(int number_of_arguments,char **arguments);
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 #endif /* KERN_CMD_COMMANDS_H_ */

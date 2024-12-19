@@ -22,6 +22,7 @@ struct UserProgramInfo userPrograms[] = {
 		{ "fos_data_on_stack", "Created by FOS team, fos@nowhere.com", PTR_START_OF(fos_data_on_stack)},
 
 		{ "cnc", "Concurrent program test", PTR_START_OF(concurrent_start)},
+<<<<<<< HEAD
 		/*TESTING 2024*/
 		//[1] LOCKS
 		{ "tst_chan_all", "Tests sleep & wakeup ALL on a channel", PTR_START_OF(tst_chan_all_master)},
@@ -37,6 +38,8 @@ struct UserProgramInfo userPrograms[] = {
 		{ "tpr2", "tests page replacement (handling new stack and modified pages)", PTR_START_OF(tst_page_replacement_stack)},
 		{ "tnclock1", "Tests page replacement (nth clock algorithm - NORMAL version)", PTR_START_OF(tst_page_replacement_nthclock_1)},
 		{ "tnclock2", "Tests page replacement (nth clock algorithm - MODIFIED version)", PTR_START_OF(tst_page_replacement_nthclock_2)},
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 		/*TESTING 2023*/
 		//[1] READY MADE TESTS

@@ -3,7 +3,10 @@
 /* *********************************************************** */
 
 #include <inc/lib.h>
+<<<<<<< HEAD
 #include <user/tst_utilities.h>
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 
 #define Mega  (1024*1024)
 #define kilo (1024)
@@ -52,6 +55,7 @@ void _main(void)
 	bool chk;
 	int usedDiskPages = sys_pf_calculate_allocated_pages() ;
 	int freeFrames = sys_calculate_free_frames() ;
+<<<<<<< HEAD
 	void* expectedVA;
 	uint32 actualSize, expectedSize, curTotalSize,roundedTotalSize ;
 	//====================================================================//
@@ -61,6 +65,16 @@ void _main(void)
 		is_correct = 1;
 		void* curVA = (void*) USER_HEAP_START + sizeof(int) /*BEG Block*/ ;
 		curTotalSize = sizeof(int);
+=======
+
+	//====================================================================//
+	/*INITIAL ALLOC Scenario 1: Try to allocate set of blocks with different sizes*/
+	cprintf("	1: Try to allocate set of blocks with different sizes [all should fit]\n\n") ;
+	{
+		is_correct = 1;
+		void* curVA = (void*) USER_HEAP_START ;
+		uint32 actualSize;
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		for (int i = 0; i < numOfAllocs; ++i)
 		{
 			for (int j = 0; j < allocCntPerSize; ++j)
@@ -70,6 +84,7 @@ void _main(void)
 				midVAs[idx] = va + actualSize/2 ;
 				endVAs[idx] = va + actualSize - sizeof(short);
 				//Check returned va
+<<<<<<< HEAD
 				expectedVA = (curVA + sizeOfMetaData/2);
 				expectedSize = allocSizes[i];
 				curTotalSize += allocSizes[i] ;
@@ -103,6 +118,28 @@ void _main(void)
 						}
 					}
 				}
+=======
+				if(va == NULL || (va < curVA))
+				{
+					if (is_correct)
+					{
+						is_correct = 0;
+						cprintf("alloc_block_xx #1.%d: WRONG ALLOC - alloc_block_xx return wrong address. Expected %x, Actual %x\n", idx, curVA + sizeOfMetaData ,va);
+					}
+				}
+				curVA += allocSizes[i] ;
+
+				//============================================================
+				//Check if the remaining area doesn't fit the DynAllocBlock,
+				//so update the curVA to skip this area
+				void* rounded_curVA = ROUNDUP(curVA, PAGE_SIZE);
+				int diff = (rounded_curVA - curVA) ;
+				if (diff > 0 && diff < sizeOfMetaData)
+				{
+					curVA = rounded_curVA;
+				}
+				//============================================================
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 				*(startVAs[idx]) = idx ;
 				*(midVAs[idx]) = idx ;
 				*(endVAs[idx]) = idx ;
@@ -119,7 +156,11 @@ void _main(void)
 
 	//====================================================================//
 	/*INITIAL ALLOC Scenario 2: Check stored data inside each allocated block*/
+<<<<<<< HEAD
 	cprintf("%~\n2: Check stored data inside each allocated block [30%]\n") ;
+=======
+	cprintf("	2: Check stored data inside each allocated block\n\n") ;
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		is_correct = 1;
 
@@ -134,12 +175,19 @@ void _main(void)
 		}
 		if (is_correct)
 		{
+<<<<<<< HEAD
 			eval += 30;
+=======
+			eval += 40;
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		}
 	}
 
 	/*Check page file*/
+<<<<<<< HEAD
 	cprintf("%~\n3: Check page file size (nothing should be allocated) [10%]\n") ;
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		is_correct = 1;
 		if ((sys_pf_calculate_allocated_pages() - usedDiskPages) != 0)
@@ -149,11 +197,16 @@ void _main(void)
 		}
 		if (is_correct)
 		{
+<<<<<<< HEAD
 			eval += 10;
+=======
+			eval += 5;
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 		}
 	}
 
 	uint32 expectedAllocatedSize = 0;
+<<<<<<< HEAD
 //	for (int i = 0; i < numOfAllocs; ++i)
 //	{
 //		expectedAllocatedSize += allocCntPerSize * allocSizes[i] ;
@@ -173,6 +226,22 @@ void _main(void)
 		if (expected != actual)
 		{
 			cprintf("number of allocated pages in MEMORY not correct. Expected %d, Actual %d\n", expected, actual);
+=======
+	for (int i = 0; i < numOfAllocs; ++i)
+	{
+		expectedAllocatedSize += allocCntPerSize * allocSizes[i] ;
+	}
+	expectedAllocatedSize = ROUNDUP(expectedAllocatedSize, PAGE_SIZE);
+	uint32 expectedAllocNumOfPages = expectedAllocatedSize / PAGE_SIZE; 				/*# pages*/
+	uint32 expectedAllocNumOfTables = ROUNDUP(expectedAllocatedSize, PTSIZE) / PTSIZE; 	/*# tables*/
+
+	/*Check memory allocation*/
+	{
+		is_correct = 1;
+		if ((freeFrames - sys_calculate_free_frames()) < (expectedAllocNumOfPages + expectedAllocNumOfTables))
+		{
+			cprintf("number of allocated pages in MEMORY are less than the its expected lower bound\n");
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 			is_correct = 0;
 		}
 		if (is_correct)
@@ -182,7 +251,10 @@ void _main(void)
 	}
 
 	/*Check WS elements*/
+<<<<<<< HEAD
 	cprintf("%~\n5: Check content of WS [20%]\n") ;
+=======
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
 	{
 		is_correct = 1;
 		uint32* expectedVAs = malloc(expectedAllocNumOfPages*sizeof(int));
@@ -199,6 +271,7 @@ void _main(void)
 		}
 		if (is_correct)
 		{
+<<<<<<< HEAD
 			eval += 20;
 		}
 	}
@@ -208,3 +281,13 @@ void _main(void)
 	return;
 }
 
+=======
+			eval += 15;
+		}
+	}
+
+	cprintf("test malloc (2) [DYNAMIC ALLOCATOR] is finished. Evaluation = %d%\n", eval);
+
+	return;
+}
+>>>>>>> c561abf376cfb4d393cdf60026fa31c8d4beef8c
